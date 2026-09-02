@@ -1561,7 +1561,7 @@
       get(k) { try { return localStorage.getItem(k); } catch (e) { return MEM[k] ?? null; } },
       set(k, v) { try { localStorage.setItem(k, v); } catch (e) { MEM[k] = v; } }
     };
-    const K_DEPT = 'hc_departments_v3', K_DOC = 'hc_doctors_v3', K_SET = 'hc_settings_v3';
+    const K_DEPT = 'hc_departments_v4', K_DOC = 'hc_doctors_v4', K_SET = 'hc_settings_v4';
 
     /* Booking links copied from the Zoho Bookings "Embed as Button" dialogs */
     const BOOK = {
@@ -1642,7 +1642,7 @@
     }
     const getDepts = () => load(K_DEPT, DEF_DEPTS);
     const getDocs = () => load(K_DOC, DEF_DOCS);
-    const getSet = () => Object.assign({}, DEF_SET, load(K_SET, DEF_SET));
+    const getSet = () => { const s = Object.assign({}, DEF_SET, load(K_SET, DEF_SET)); if (!s.title || s.title === 'Homecare') s.title = 'Healthcare'; return s; };
     const setDepts = v => store.set(K_DEPT, JSON.stringify(v));
     const setDocs = v => store.set(K_DOC, JSON.stringify(v));
     const setSet = v => store.set(K_SET, JSON.stringify(v));
@@ -1978,7 +1978,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-01-palette';
+    const SEED_VERSION = '2026-09-02-healthcare';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       const seededNames = DEF_DOCS.map(d => d.name);
@@ -1995,6 +1995,7 @@
       if (s.primary === '#5646A5') s.primary = DEF_SET.primary;
       if (s.secondary === '#0E9384') s.secondary = DEF_SET.secondary;
       if (!s.logoData) s.logoData = LOGO;
+      if (!s.title || s.title === 'Homecare') s.title = 'Healthcare';
       setSet(s);
       store.set('hc_seed_version', SEED_VERSION);
     })();
