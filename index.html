@@ -1646,18 +1646,21 @@
     const DEF_DOCS = [
       {
         name: 'Dr Vikram', department: 'cardiology',
+        email: 'shahinaa.sk+doctor3@zohotest.com',
         role: 'Interventional cardiology and the chest pain clinic',
         photo: PIC('1612349317150-e413f6a5b16d'),
         embedCode: BOOK.cardiology
       },
       {
         name: 'Dr Jack Williams', department: 'dermatology',
+        email: 'shahinaa.sk+doctor2@zohotest.com',
         role: 'Medical dermatology, acne and paediatric skin care',
         photo: PIC('1712215544003-af10130f8eb3'),
         embedCode: BOOK.dermatology
       },
       {
         name: 'Dr Steve Smith', department: 'radiology',
+        email: 'shahinaa.sk+doctor1@zohotest.com',
         role: 'Diagnostic imaging and scan-guided procedures',
         photo: PIC('1622253692010-333f2da6031d'),
         embedCode: BOOK.radiology
@@ -1873,9 +1876,9 @@
         ${photoHtml}
         <div class="confirm-text">
           <div class="confirm-title">Booking appointment with <span id="dyn-doc-name">${esc(doc.name)}</span></div>
-          <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}</div>
+          <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}${doc.email ? ` · <em>${esc(doc.email)}</em>` : ''}</div>
         </div>
-        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Selected Doctor</span>
+        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Zoho Staff User</span>
       `;
       body.appendChild(banner);
 
@@ -1971,7 +1974,11 @@
           : `<span class="avatar" style="background:${dept.color}">${initials(d.name)}</span>`;
         const code = d.embedCode ? esc(d.embedCode.slice(0, 90)) + (d.embedCode.length > 90 ? '…' : '') : 'No booking link';
         return `<li class="list-row">${av}
-          <div class="row-main"><div class="n">${esc(d.name)}</div><div class="d">${esc(dept.name)} · ${esc(d.role || '—')}</div></div>
+          <div class="row-main">
+            <div class="n">${esc(d.name)}</div>
+            <div class="d">${esc(dept.name)} · ${esc(d.role || '—')}</div>
+            ${d.email ? `<div class="d" style="color:var(--primary);font-size:.76rem">${esc(d.email)}</div>` : ''}
+          </div>
           <div class="row-code">${code}</div>
           <div class="row-actions">
             <button class="icon-btn" title="Edit" onclick="editDoc(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button>
@@ -2097,7 +2104,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-zfh-healthcare';
+    const SEED_VERSION = '2026-09-02-zoho-users';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       setDepts(DEF_DEPTS);
