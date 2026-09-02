@@ -1615,7 +1615,7 @@
       {
         name: 'Dr Steve Smith', department: 'radiology',
         role: 'Diagnostic imaging and scan-guided procedures',
-        photo: PIC('1712215544003-af10130f8eb3'),
+        photo: PIC('1622253692010-333f2da6031d'),
         embedCode: BOOK.radiology
       }
     ];
@@ -1985,7 +1985,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-derm-photo';
+    const SEED_VERSION = '2026-09-02-radio-photo';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       setDepts(DEF_DEPTS);
