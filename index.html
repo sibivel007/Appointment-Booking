@@ -1641,7 +1641,14 @@
       return JSON.parse(JSON.stringify(def));
     }
     const getDepts = () => load(K_DEPT, DEF_DEPTS);
-    const getDocs = () => load(K_DOC, DEF_DOCS);
+    const getDocs = () => {
+      const docs = load(K_DOC, DEF_DOCS);
+      if (!Array.isArray(docs) || docs.some(d => d.name?.includes('Nair') || d.name?.includes('Sundaram') || d.name?.includes('Chakrabarti'))) {
+        setDocs(DEF_DOCS);
+        return DEF_DOCS;
+      }
+      return docs;
+    };
     const getSet = () => { const s = Object.assign({}, DEF_SET, load(K_SET, DEF_SET)); if (!s.title || s.title === 'Homecare') s.title = 'Healthcare'; return s; };
     const setDepts = v => store.set(K_DEPT, JSON.stringify(v));
     const setDocs = v => store.set(K_DOC, JSON.stringify(v));
@@ -1978,13 +1985,11 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-docnames';
+    const SEED_VERSION = '2026-09-02-only-3-docs';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
-      const seededNames = DEF_DOCS.map(d => d.name);
-      const custom = getDocs().filter(d => !seededNames.includes(d.name) && !d.photo?.includes('randomuser'));
       setDepts(DEF_DEPTS);
-      setDocs(DEF_DOCS.concat(custom));
+      setDocs(DEF_DOCS);
       // Refresh hero copy only if it is still an older built-in default
       const OLD_HEADINGS = ['Book Your Appointment', 'Care that starts with the right specialist'];
       const s = getSet();
