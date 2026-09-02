@@ -1879,9 +1879,7 @@
         <div class="confirm-text">
           <div class="confirm-title">Booking appointment with <span id="dyn-doc-name">${esc(doc.name)}</span></div>
           <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}</div>
-          <div class="confirm-sub" style="color:var(--primary);margin-top:3px;font-weight:600">🎥 Meeting Link: Sent to your email & created via Zoho Meeting</div>
         </div>
-        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Staff User</span>
       `;
       body.appendChild(banner);
 
