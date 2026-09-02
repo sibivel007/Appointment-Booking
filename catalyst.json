@@ -1,9 +1,8 @@
 {
-  "client": "client",
   "slate": [
     {
       "name": "appointment-booking-cnkw",
-      "source": "appointment-booking"
+      "source": "."
     }
   ]
 }
