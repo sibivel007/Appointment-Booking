@@ -1247,11 +1247,7 @@
         <a href="#departments" onclick="showPanel('site')">Departments</a>
         <a href="#how" onclick="showPanel('site')">How it works</a>
       </nav>
-      <div class="admin-toggle">
-        <button id="t-site" class="on" onclick="showPanel('site')">Website</button>
-        <button id="t-manage" onclick="showPanel('manage')">Manage</button>
-        <button id="t-settings" onclick="showPanel('settings')">Settings</button>
-      </div>
+      <a href="#doctors" class="btn btn-primary btn-sm">Book Appointment</a>
     </div>
   </header>
 
@@ -1883,6 +1879,7 @@
         <div class="confirm-text">
           <div class="confirm-title">Booking appointment with <span id="dyn-doc-name">${esc(doc.name)}</span></div>
           <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}</div>
+          <div class="confirm-sub" style="color:var(--primary);margin-top:3px;font-weight:600">🎥 Meeting Link: Sent to your email & created via Zoho Meeting</div>
         </div>
         <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Staff User</span>
       `;
@@ -2096,8 +2093,10 @@
     /* =========== PANELS =========== */
     function showPanel(name) {
       ['site', 'manage', 'settings'].forEach(p => {
-        document.getElementById('panel-' + p).classList.toggle('active', p === name);
-        document.getElementById('t-' + (p === 'site' ? 'site' : p)).classList.toggle('on', p === name);
+        const panel = document.getElementById('panel-' + p);
+        if (panel) panel.classList.toggle('active', p === name);
+        const btn = document.getElementById('t-' + (p === 'site' ? 'site' : p));
+        if (btn) btn.classList.toggle('on', p === name);
       });
       if (name === 'manage') { renderChips(); renderDocList(); }
       if (name === 'settings') loadSettingsForm();
@@ -2109,7 +2108,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-staff-user';
+    const SEED_VERSION = '2026-09-02-clean-header';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       setDepts(DEF_DEPTS);
