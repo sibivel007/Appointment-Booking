@@ -1133,11 +1133,13 @@
       background: var(--paper);
       border-bottom: 1px solid var(--line);
     }
+
     .booking-confirm-banner .avatar {
       width: 40px;
       height: 40px;
       font-size: .8rem;
     }
+
     .booking-confirm-banner img.confirm-avatar {
       width: 40px;
       height: 40px;
@@ -1145,14 +1147,17 @@
       object-fit: cover;
       flex-shrink: 0;
     }
+
     .booking-confirm-banner .confirm-text {
       flex: 1;
     }
+
     .booking-confirm-banner .confirm-title {
       font-weight: 700;
       font-size: .95rem;
       color: var(--ink);
     }
+
     .booking-confirm-banner .confirm-sub {
       font-size: .8rem;
       color: var(--muted);
@@ -1324,7 +1329,8 @@
       <div class="wrap">
         <div class="section-head">
           <h2>A small clinic built around specialists</h2>
-          <p>ZFH Healthcare runs as three focused departments rather than one general queue. You see the doctor who treats
+          <p>ZFH Healthcare runs as three focused departments rather than one general queue. You see the doctor who
+            treats
             your
             condition every day, and your records stay with that team between visits.</p>
         </div>
@@ -1860,7 +1866,7 @@
       const doc = getDocs()[i]; if (!doc) return;
       currentBookingDoc = doc;
       const dept = findDept(doc.department);
-      
+
       document.getElementById('modal-title').textContent = `Appointment Booking — ${doc.name}`;
       const body = document.getElementById('modal-body');
       body.innerHTML = '';
@@ -1868,17 +1874,17 @@
       // Dynamic Confirmation Header Banner inside modal
       const banner = document.createElement('div');
       banner.className = 'booking-confirm-banner';
-      const photoHtml = doc.photo 
+      const photoHtml = doc.photo
         ? `<img class="confirm-avatar" src="${esc(doc.photo)}" alt="${esc(doc.name)}">`
         : `<div class="avatar" style="background:${dept.color}">${initials(doc.name)}</div>`;
-        
+
       banner.innerHTML = `
         ${photoHtml}
         <div class="confirm-text">
           <div class="confirm-title">Booking appointment with <span id="dyn-doc-name">${esc(doc.name)}</span></div>
-          <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}${doc.email ? ` · <em>${esc(doc.email)}</em>` : ''}</div>
+          <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}</div>
         </div>
-        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Zoho Staff User</span>
+        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Staff User</span>
       `;
       body.appendChild(banner);
 
@@ -1916,7 +1922,7 @@
     }
 
     /* Listen for postMessage from Zoho Bookings widget to display dynamic confirmation */
-    window.addEventListener('message', function(e) {
+    window.addEventListener('message', function (e) {
       if (e.data && (e.data.type === 'booking_successful' || e.data.action === 'booking_completed' || String(e.data).includes('success'))) {
         const docName = currentBookingDoc ? currentBookingDoc.name : 'your doctor';
         toast(`Appointment with ${docName} successfully confirmed!`);
@@ -1977,7 +1983,6 @@
           <div class="row-main">
             <div class="n">${esc(d.name)}</div>
             <div class="d">${esc(dept.name)} · ${esc(d.role || '—')}</div>
-            ${d.email ? `<div class="d" style="color:var(--primary);font-size:.76rem">${esc(d.email)}</div>` : ''}
           </div>
           <div class="row-code">${code}</div>
           <div class="row-actions">
@@ -2104,7 +2109,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-zoho-users';
+    const SEED_VERSION = '2026-09-02-staff-user';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       setDepts(DEF_DEPTS);
