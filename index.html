@@ -1601,19 +1601,19 @@
     const PIC = id => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&crop=faces&w=900&h=1125&q=85';
     const DEF_DOCS = [
       {
-        name: 'Dr Vikram Nair', department: 'cardiology',
+        name: 'Dr Vikram', department: 'cardiology',
         role: 'Interventional cardiology and the chest pain clinic',
         photo: PIC('1612349317150-e413f6a5b16d'),
         embedCode: BOOK.cardiology
       },
       {
-        name: 'Dr Meera Sundaram', department: 'dermatology',
+        name: 'Dr Jack Williams', department: 'dermatology',
         role: 'Medical dermatology, acne and paediatric skin care',
         photo: PIC('1659353888906-adb3e0041693'),
         embedCode: BOOK.dermatology
       },
       {
-        name: 'Dr Prantar Chakrabarti', department: 'radiology',
+        name: 'Dr Steve Smith', department: 'radiology',
         role: 'Diagnostic imaging and scan-guided procedures',
         photo: PIC('1645066928295-2506defde470'),
         embedCode: BOOK.radiology
@@ -1978,7 +1978,7 @@
        On load, any browser holding older seed data is refreshed automatically,
        so stale photos or doctor names from a previous run can't stick around.
        Doctors you added yourself are kept. */
-    const SEED_VERSION = '2026-09-02-healthcare';
+    const SEED_VERSION = '2026-09-02-docnames';
     (function reseedIfStale() {
       if (store.get('hc_seed_version') === SEED_VERSION) return;
       const seededNames = DEF_DOCS.map(d => d.name);
