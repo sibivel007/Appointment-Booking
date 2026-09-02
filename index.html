@@ -1124,6 +1124,40 @@
       border-left-color: var(--danger);
     }
 
+    /* ============ BOOKING CONFIRMATION BANNER ============ */
+    .booking-confirm-banner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 22px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .booking-confirm-banner .avatar {
+      width: 40px;
+      height: 40px;
+      font-size: .8rem;
+    }
+    .booking-confirm-banner img.confirm-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .booking-confirm-banner .confirm-text {
+      flex: 1;
+    }
+    .booking-confirm-banner .confirm-title {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--ink);
+    }
+    .booking-confirm-banner .confirm-sub {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
     /* ============ RESPONSIVE ============ */
     @media (max-width: 960px) {
 
@@ -1451,6 +1485,16 @@
                 <div class="drop" id="doc-drop">
                   <input type="file" accept="image/*" onchange="uploadDocPhoto(event)">
                   <p id="doc-drop-text">Click to upload a portrait</p>
+                </div>
+              </div>
+              <div class="row-2">
+                <div>
+                  <label class="field-label" for="in-staffid">Zoho Staff ID (Optional)</label>
+                  <input class="field-input" id="in-staffid" placeholder="e.g. 78386000000032018">
+                </div>
+                <div>
+                  <label class="field-label" for="in-authtoken">Zoho OAuth Token (Optional)</label>
+                  <input class="field-input" id="in-authtoken" placeholder="Zoho-oauthtoken ...">
                 </div>
               </div>
               <div class="form-full">
@@ -1788,18 +1832,58 @@
       openBooking(+v);
     }
 
+    /* =========== ZOHO BOOKINGS API & DYNAMIC DOCTOR FETCHING =========== */
+    async function fetchZohoStaff(staffId, serviceId, workspaceId, authToken) {
+      if (!staffId || !authToken) return null;
+      try {
+        const url = `https://www.zohoapis.com/bookings/v1/json/staffs?staff_id=${encodeURIComponent(staffId)}&service_id=${encodeURIComponent(serviceId || '')}&workspace_id=${encodeURIComponent(workspaceId || '')}`;
+        const res = await fetch(url, {
+          headers: { 'Authorization': `Zoho-oauthtoken ${authToken}` }
+        });
+        const data = await res.json();
+        if (data?.response?.returnvalue?.data?.[0]) {
+          return data.response.returnvalue.data[0];
+        }
+      } catch (e) {
+        console.warn('Zoho Bookings Staff API fetch error:', e);
+      }
+      return null;
+    }
+
+    let currentBookingDoc = null;
+
     /* =========== BOOKING MODAL =========== */
     function openBooking(i) {
       const doc = getDocs()[i]; if (!doc) return;
+      currentBookingDoc = doc;
       const dept = findDept(doc.department);
-      document.getElementById('modal-title').textContent = `${doc.name} — ${dept.name}`;
+      
+      document.getElementById('modal-title').textContent = `Appointment Booking — ${doc.name}`;
       const body = document.getElementById('modal-body');
       body.innerHTML = '';
+
+      // Dynamic Confirmation Header Banner inside modal
+      const banner = document.createElement('div');
+      banner.className = 'booking-confirm-banner';
+      const photoHtml = doc.photo 
+        ? `<img class="confirm-avatar" src="${esc(doc.photo)}" alt="${esc(doc.name)}">`
+        : `<div class="avatar" style="background:${dept.color}">${initials(doc.name)}</div>`;
+        
+      banner.innerHTML = `
+        ${photoHtml}
+        <div class="confirm-text">
+          <div class="confirm-title">Booking appointment with <span id="dyn-doc-name">${esc(doc.name)}</span></div>
+          <div class="confirm-sub">${esc(dept.name)} Department · ${esc(doc.role || 'Specialist')}</div>
+        </div>
+        <span class="tagpill" style="background:${tint(dept.color, .12)};color:${dept.color};font-weight:700">Selected Doctor</span>
+      `;
+      body.appendChild(banner);
+
       const code = (doc.embedCode || '').trim();
       const urlMatch = code.match(/url:\s*["']([^"']+)["']/) || code.match(/^(https?:\/\/\S+)$/);
       if (urlMatch) {
         const f = document.createElement('iframe');
-        f.src = urlMatch[1]; f.loading = 'lazy'; f.title = 'Booking calendar';
+        f.src = urlMatch[1]; f.loading = 'lazy'; f.title = `Booking calendar for ${doc.name}`;
         body.appendChild(f);
       } else if (code) {
         const f = document.createElement('iframe');
@@ -1807,10 +1891,34 @@
         f.sandbox = 'allow-scripts allow-same-origin allow-popups allow-forms';
         body.appendChild(f);
       } else {
-        body.innerHTML = '<p style="padding:60px;text-align:center;color:var(--muted)">No booking link set for this doctor yet. Add one under Manage.</p>';
+        const emptyMsg = document.createElement('p');
+        emptyMsg.style.cssText = 'padding:60px;text-align:center;color:var(--muted)';
+        emptyMsg.textContent = `No booking link configured for ${doc.name} yet. Add one under Manage.`;
+        body.appendChild(emptyMsg);
       }
+
+      // Fetch dynamic staff details from Zoho Bookings API if credentials are configured
+      if (doc.staffId && doc.authToken) {
+        fetchZohoStaff(doc.staffId, doc.serviceId, doc.workspaceId, doc.authToken).then(staff => {
+          if (staff && staff.name) {
+            const dynEl = document.getElementById('dyn-doc-name');
+            if (dynEl) dynEl.textContent = staff.name;
+            document.getElementById('modal-title').textContent = `Appointment Booking — ${staff.name}`;
+            toast(`Fetched live doctor details: ${staff.name}`);
+          }
+        });
+      }
+
       document.getElementById('modal').classList.add('open');
     }
+
+    /* Listen for postMessage from Zoho Bookings widget to display dynamic confirmation */
+    window.addEventListener('message', function(e) {
+      if (e.data && (e.data.type === 'booking_successful' || e.data.action === 'booking_completed' || String(e.data).includes('success'))) {
+        const docName = currentBookingDoc ? currentBookingDoc.name : 'your doctor';
+        toast(`Appointment with ${docName} successfully confirmed!`);
+      }
+    });
     function closeModal() {
       document.getElementById('modal').classList.remove('open');
       document.getElementById('modal-body').innerHTML = '';
@@ -1881,6 +1989,8 @@
         department: document.getElementById('in-dept').value,
         role: document.getElementById('in-role').value.trim(),
         photo: document.getElementById('in-photo').value.trim(),
+        staffId: (document.getElementById('in-staffid')?.value || '').trim(),
+        authToken: (document.getElementById('in-authtoken')?.value || '').trim(),
         embedCode: document.getElementById('in-embed').value.trim()
       };
       if (!obj.name || !obj.department) { toast('Name and department are required', true); return; }
@@ -1894,6 +2004,8 @@
       document.getElementById('in-dept').value = d.department;
       document.getElementById('in-role').value = d.role || '';
       document.getElementById('in-photo').value = d.photo || '';
+      if (document.getElementById('in-staffid')) document.getElementById('in-staffid').value = d.staffId || '';
+      if (document.getElementById('in-authtoken')) document.getElementById('in-authtoken').value = d.authToken || '';
       document.getElementById('in-embed').value = d.embedCode || '';
       document.getElementById('f-title').textContent = 'Edit doctor';
       document.getElementById('f-sub').textContent = 'Update the details, then save your changes.';
