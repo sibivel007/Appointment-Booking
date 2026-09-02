@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homecare — Book a specialist</title>
+  <meta name="description"
+    content="Homecare multi-speciality clinic. Read about each department, meet the doctors, and book an appointment online.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #14496B;
+      --primary-dark: #0e3550;
+      --primary-tint: #e9f0f6;
+      --secondary: #1F9D74;
+      --secondary-tint: #e6f5ef;
+      --ink: #10202e;
+      --body: #4d5266;
+      --muted: #8a90a3;
+      --paper: #f5f8fa;
+      --white: #ffffff;
+      --line: #e0e7ed;
+      --danger: #c62828;
+      --danger-tint: #fdf0f0;
+      --success: #16a34a;
+      --r-s: 8px;
+      --r-m: 14px;
+      --r-l: 22px;
+      --shadow-s: 0 1px 3px rgba(23, 24, 43, .06);
+      --shadow-m: 0 10px 30px rgba(23, 24, 43, .08);
+      --shadow-l: 0 30px 70px rgba(23, 24, 43, .18);
+      --t: .18s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    .display {
+      font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+      color: var(--ink);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============ HEADER ============ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-right: auto;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg {
+      width: 21px;
+      height: 21px;
+      color: var(--primary);
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 1.12rem;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .brand-tag {
+      font-size: .74rem;
+      color: var(--muted);
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .site-nav a {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--body);
+      text-decoration: none;
+      transition: var(--t);
+    }
+
+    .site-nav a:hover {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .admin-toggle {
+      display: flex;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .admin-toggle button {
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 7px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--t);
+    }
+
+    .admin-toggle button:hover {
+      color: var(--ink);
+    }
+
+    .admin-toggle button.on {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    /* ============ PANELS ============ */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: .22;
+    }
+
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, var(--primary) 6%, rgba(20, 73, 107, .88) 46%, rgba(31, 157, 116, .62) 100%);
+    }
+
+    .hero-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 48px;
+      align-items: center;
+      min-height: 0;
+      padding: 60px 0 64px;
+    }
+
+    .hero .welcome {
+      display: block;
+      font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+      color: rgba(255, 255, 255, .9);
+      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+      font-weight: 500;
+      letter-spacing: -.01em;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(2rem, 4.2vw, 2.85rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero p.lede {
+      color: rgba(255, 255, 255, .86);
+      font-size: 1.02rem;
+      max-width: 44ch;
+      margin-bottom: 26px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* quick picker card in hero */
+    .picker {
+      background: #fff;
+      border-radius: var(--r-l);
+      padding: 24px;
+      box-shadow: var(--shadow-l);
+      color: var(--body);
+    }
+
+    .picker h3 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .picker p {
+      font-size: .83rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .picker .field-label {
+      margin-top: 14px;
+    }
+
+    .picker .field-label:first-of-type {
+      margin-top: 0;
+    }
+
+    .picker .btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      padding: 84px 0;
+    }
+
+    .section.alt {
+      background: var(--paper);
+      border-block: 1px solid var(--line);
+    }
+
+    .section-head {
+      max-width: 62ch;
+      margin-bottom: 44px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-head p {
+      font-size: 1rem;
+      color: var(--body);
+    }
+
+    /* about */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .about-item {
+      padding-top: 20px;
+      border-top: 2px solid var(--ink);
+    }
+
+    .about-item h3 {
+      font-size: 1.02rem;
+      margin-bottom: 7px;
+    }
+
+    .about-item p {
+      font-size: .92rem;
+    }
+
+    /* departments */
+    .dept-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .dept-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 26px;
+      align-items: start;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--primary);
+      border-radius: var(--r-m);
+      padding: 28px 30px;
+    }
+
+    .dept-row .d-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+    }
+
+    .dept-row .d-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .dept-row h3 {
+      font-size: 1.22rem;
+      margin-bottom: 6px;
+    }
+
+    .dept-row .d-desc {
+      font-size: .94rem;
+      max-width: 66ch;
+      margin-bottom: 14px;
+    }
+
+    .dept-row .d-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tagpill {
+      font-size: .76rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--body);
+    }
+
+    .dept-row .d-go {
+      align-self: center;
+    }
+
+    /* doctors */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--body);
+      padding: 9px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--t);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-btn .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--muted);
+    }
+
+    .filter-btn.on {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+      gap: 26px;
+    }
+
+    .doc-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-m);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--t), border-color var(--t);
+    }
+
+    .doc-card:hover {
+      box-shadow: var(--shadow-m);
+      border-color: #cfd2e0;
+    }
+
+    .doc-photo {
+      position: relative;
+      margin: 14px 14px 0;
+      border-radius: 12px;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(165deg, #eef0f5, #e3e7ee);
+      overflow: hidden;
+    }
+
+    .doc-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+    }
+
+    .doc-photo .ph-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .doc-photo .badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      z-index: 2;
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(6px);
+      border-radius: 999px;
+      padding: 6px 13px;
+      font-size: .74rem;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(12, 13, 26, .12);
+    }
+
+    .doc-body {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .doc-body h3 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .doc-body .role {
+      font-size: .88rem;
+      color: var(--body);
+      margin-bottom: 18px;
+      flex: 1;
+    }
+
+    .doc-body .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px 24px;
+      border: 2px dashed var(--line);
+      border-radius: var(--r-m);
+      background: #fff;
+    }
+
+    .empty h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .empty p {
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    /* how it works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      counter-reset: s;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 52px;
+    }
+
+    .step::before {
+      counter-increment: s;
+      content: counter(s);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: .95rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      padding-top: 5px;
+    }
+
+    .step p {
+      font-size: .92rem;
+    }
+
+    /* footer */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, .72);
+      padding: 54px 0 34px;
+      font-size: .9rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, .14);
+    }
+
+    .site-footer h4 {
+      color: #fff;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: .95rem;
+      margin-bottom: 12px;
+    }
+
+    .site-footer ul {
+      list-style: none;
+      display: grid;
+      gap: 7px;
+    }
+
+    .site-footer a {
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      color: #fff;
+    }
+
+    .footer-base {
+      padding-top: 22px;
+      font-size: .82rem;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    /* ============ FORM BITS ============ */
+    .field-label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .field-input,
+    .field-select,
+    .field-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-s);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: .92rem;
+      transition: var(--t);
+    }
+
+    .field-input:focus,
+    .field-select:focus,
+    .field-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-tint);
+    }
+
+    .field-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238a90a3' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 38px;
+    }
+
+    .field-textarea {
+      min-height: 108px;
+      resize: vertical;
+      font-family: ui-monospace, 'Courier New', monospace;
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+
+    .field-color {
+      height: 44px;
+      width: 58px;
+      padding: 3px;
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-s);
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .hint {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: var(--r-s);
+      font-family: inherit;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--t);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-ink {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .btn-ink:hover {
+      background: #2b2d47;
+    }
+
+    .btn-light {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .btn-light:hover {
+      background: #f0f0f6;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--body);
+      border: 1.5px solid var(--line);
+    }
+
+    .btn-ghost:hover {
+      background: var(--paper);
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, .5);
+    }
+
+    .btn-outline-light:hover {
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .btn-sm {
+      padding: 9px 16px;
+      font-size: .82rem;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: var(--r-s);
+      color: var(--muted);
+      cursor: pointer;
+      transition: var(--t);
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .icon-btn:hover {
+      color: var(--ink);
+      border-color: var(--muted);
+    }
+
+    .icon-btn.danger:hover {
+      color: var(--danger);
+      background: var(--danger-tint);
+      border-color: #f3c9c9;
+    }
+
+    /* ============ ADMIN ============ */
+    .admin-wrap {
+      padding: 44px 0 90px;
+      background: var(--paper);
+      min-height: 70vh;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-m);
+      box-shadow: var(--shadow-s);
+    }
+
+    .card+.card {
+      margin-top: 20px;
+    }
+
+    .card-head {
+      padding: 20px 26px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-head h3 {
+      font-size: 1.02rem;
+    }
+
+    .card-head p {
+      font-size: .84rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .card-body {
+      padding: 24px 26px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .form-full {
+      margin-bottom: 18px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r-s);
+      flex-wrap: wrap;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: .8rem;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .row-main {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .row-main .n {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: .92rem;
+    }
+
+    .row-main .d {
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .row-code {
+      flex: 1.6;
+      min-width: 170px;
+      font-family: ui-monospace, monospace;
+      font-size: .7rem;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 8px 11px;
+      border-radius: 6px;
+      max-height: 46px;
+      overflow: hidden;
+      word-break: break-all;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .chip .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .chip button {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .chip button:hover {
+      color: var(--danger);
+    }
+
+    .drop {
+      border: 2px dashed var(--line);
+      border-radius: var(--r-s);
+      padding: 22px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      min-height: 118px;
+      display: grid;
+      place-items: center;
+      transition: var(--t);
+    }
+
+    .drop:hover {
+      border-color: var(--primary);
+      background: var(--primary-tint);
+    }
+
+    .drop input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .drop p {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .drop img {
+      max-height: 92px;
+      border-radius: 6px;
+      margin: 0 auto 6px;
+    }
+
+    /* ============ MODAL / TOAST ============ */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(23, 24, 43, .55);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: var(--r-l);
+      width: 100%;
+      max-width: 940px;
+      max-height: 94vh;
+      overflow: hidden;
+      box-shadow: var(--shadow-l);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-head h3 {
+      font-size: 1rem;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 17px;
+      color: var(--body);
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      background: #ececf4;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 690px;
+      border: 0;
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 2000;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--success);
+      border-radius: var(--r-s);
+      padding: 13px 20px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--ink);
+      box-shadow: var(--shadow-m);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .3s ease;
+    }
+
+    .toast.show {
+      transform: none;
+      opacity: 1;
+    }
+
+    .toast.err {
+      border-left-color: var(--danger);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 960px) {
+
+      .hero-inner,
+      .about-grid,
+      .steps,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-inner {
+        padding: 54px 0 60px;
+        gap: 36px;
+      }
+
+      .dept-row {
+        grid-template-columns: 46px 1fr;
+      }
+
+      .dept-row .d-go {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .site-nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 620px) {
+
+      .row-2,
+      .row-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .header-inner {
+        height: 64px;
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .brand-tag {
+        display: none;
+      }
+
+      .modal-body iframe {
+        height: 480px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" onclick="showPanel('site')">
+        <span class="brand-mark" id="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 21s-7.5-4.7-9.3-9.2A5.2 5.2 0 0112 5.5a5.2 5.2 0 019.3 6.3C19.5 16.3 12 21 12 21z" />
+            <path d="M6 12h3l1.5-3 2 6 1.5-3H18" />
+          </svg>
+        </span>
+        <span>
+          <span class="brand-name" id="brand-name">Homecare</span>
+          <span class="brand-tag" id="brand-tag">Your life is our life</span>
+        </span>
+      </a>
+      <nav class="site-nav" id="site-nav">
+        <a href="#doctors" onclick="showPanel('site')">Doctors</a>
+        <a href="#departments" onclick="showPanel('site')">Departments</a>
+        <a href="#how" onclick="showPanel('site')">How it works</a>
+      </nav>
+      <div class="admin-toggle">
+        <button id="t-site" class="on" onclick="showPanel('site')">Website</button>
+        <button id="t-manage" onclick="showPanel('manage')">Manage</button>
+        <button id="t-settings" onclick="showPanel('settings')">Settings</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= PUBLIC SITE ================= -->
+  <div class="panel active" id="panel-site">
+
+    <section class="hero" id="top">
+      <div class="hero-photo" id="hero-photo"></div>
+      <div class="hero-veil"></div>
+      <div class="wrap hero-inner">
+        <div>
+          <span class="welcome" id="hero-welcome">Welcome to Homecare</span>
+          <h1 id="hero-heading">Good care begins with the right doctor</h1>
+          <p class="lede" id="hero-sub">Meet our specialists, read what each department treats, and book a time that
+            suits you. No phone calls, no waiting room queue.</p>
+          <div class="hero-cta">
+            <a class="btn btn-light" href="#doctors">Meet the doctors</a>
+            <a class="btn btn-outline-light" href="#departments">Browse departments</a>
+          </div>
+        </div>
+
+        <div class="picker">
+          <h3>Booking Appointment</h3>
+          <p>Pick a department, then the doctor you want to see.</p>
+          <label class="field-label" for="pick-dept">Department</label>
+          <select class="field-select" id="pick-dept" onchange="onPickDept()">
+            <option value="">Any department</option>
+          </select>
+          <label class="field-label" for="pick-doc">Doctor</label>
+          <select class="field-select" id="pick-doc">
+            <option value="">Select a doctor</option>
+          </select>
+          <button class="btn btn-primary" onclick="bookFromPicker()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            Check available slots
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="doctors">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Meet the doctors</h2>
+          <p>Three specialists, each with their own calendar. Filter by department, read what they focus on, and book
+            straight from their card.</p>
+        </div>
+        <div class="filter-bar" id="filter-bar"></div>
+        <div class="doc-grid" id="doc-grid"></div>
+        <div class="empty" id="doc-empty" style="display:none">
+          <h3>No doctors in this department yet</h3>
+          <p>Add one under Manage, or choose another department above.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="section alt" id="departments">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Departments and what they treat</h2>
+          <p>Not sure which team you need? Each department lists the conditions it handles and the tests it runs, so you
+            can book the right consultation the first time.</p>
+        </div>
+        <div class="dept-list" id="dept-list"></div>
+      </div>
+    </section>
+
+    <!-- DOCTORS -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>A small clinic built around specialists</h2>
+          <p>Homecare runs as three focused departments rather than one general queue. You see the doctor who treats
+            your
+            condition every day, and your records stay with that team between visits.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-item">
+            <h3>Same-week appointments</h3>
+            <p>Every doctor keeps slots open through the week, so most patients are seen within three days of booking.
+            </p>
+          </div>
+          <div class="about-item">
+            <h3>One record, every visit</h3>
+            <p>Test results, prescriptions and notes stay linked to your file, whichever department you visit next.</p>
+          </div>
+          <div class="about-item">
+            <h3>Follow-up included</h3>
+            <p>A review call after your consultation is part of the visit, not a separate appointment you have to chase.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPARTMENTS -->
+    <section class="section alt" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>How booking works</h2>
+          <p>The whole thing takes about a minute, and you get a confirmation by email straight away.</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <h3>Pick your department</h3>
+            <p>Read the descriptions above if you are unsure which team handles your symptoms.</p>
+          </div>
+          <div class="step">
+            <h3>Choose a doctor and slot</h3>
+            <p>The calendar opens with live availability. Pick any open time that works for you.</p>
+          </div>
+          <div class="step">
+            <h3>Confirm and arrive</h3>
+            <p>You will get an email with the time, the doctor and what to bring. Reschedule from the same link.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <h4 id="foot-name">Homecare</h4>
+            <p style="max-width:38ch">Multi-speciality outpatient clinic. Consultations, diagnostics and follow-up care
+              under one roof.</p>
+          </div>
+          <div>
+            <h4>Departments</h4>
+            <ul id="foot-depts"></ul>
+          </div>
+          <div>
+            <h4>Visit us</h4>
+            <ul>
+              <li>Mon–Sat, 8:00–20:00</li>
+              <li>Sunday, emergencies only</li>
+              <li><a href="#doctors">Book an appointment</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-base">This is a demo site with sample doctors and stock photos, for layout testing only.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================= MANAGE ================= -->
+  <div class="panel" id="panel-manage">
+    <div class="admin-wrap">
+      <div class="wrap">
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Departments</h3>
+            <p>Each department shows on the website with its own colour, description and specialities.</p>
+          </div>
+          <div class="card-body">
+            <div class="chips" id="dept-chips"></div>
+            <div class="row-3" style="margin-bottom:14px">
+              <div>
+                <label class="field-label" for="nd-name">Department name</label>
+                <input class="field-input" id="nd-name">
+              </div>
+              <div>
+                <label class="field-label" for="nd-tags">Specialities, comma separated</label>
+                <input class="field-input" id="nd-tags">
+              </div>
+              <div>
+                <label class="field-label" for="nd-color">Colour</label>
+                <input class="field-color" type="color" id="nd-color" value="#14496B">
+              </div>
+            </div>
+            <div class="row-2">
+              <div>
+                <label class="field-label" for="nd-desc">Description shown on the website</label>
+                <input class="field-input" id="nd-desc">
+              </div>
+              <div>
+                <label class="field-label" for="nd-duration">Appointment length</label>
+                <input class="field-input" id="nd-duration">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="addDept()">Add department</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Doctors</h3>
+            <p>Everyone listed on the website. Edit a card to change the photo or booking link.</p>
+          </div>
+          <div class="card-body">
+            <ul class="list" id="doc-list"></ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3 id="f-title">Add a doctor</h3>
+            <p id="f-sub">The photo and description appear on the doctor card. The embed code powers the booking window.
+            </p>
+          </div>
+          <div class="card-body">
+            <form id="doc-form" onsubmit="submitDoc(event)">
+              <input type="hidden" id="edit-idx" value="-1">
+              <div class="row-2">
+                <div>
+                  <label class="field-label" for="in-name">Doctor name</label>
+                  <input class="field-input" id="in-name" required>
+                </div>
+                <div>
+                  <label class="field-label" for="in-dept">Department</label>
+                  <select class="field-select" id="in-dept" required>
+                    <option value="">Select a department</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row-2">
+                <div>
+                  <label class="field-label" for="in-role">What they specialise in</label>
+                  <input class="field-input" id="in-role">
+                </div>
+                <div>
+                  <label class="field-label" for="in-photo">Photo URL</label>
+                  <input class="field-input" id="in-photo">
+                  <p class="hint">Leave blank to show initials, or upload a file below.</p>
+                </div>
+              </div>
+              <div class="form-full">
+                <label class="field-label">Upload a photo instead</label>
+                <div class="drop" id="doc-drop">
+                  <input type="file" accept="image/*" onchange="uploadDocPhoto(event)">
+                  <p id="doc-drop-text">Click to upload a portrait</p>
+                </div>
+              </div>
+              <div class="form-full">
+                <label class="field-label" for="in-embed">Zoho Bookings embed code or booking URL</label>
+                <textarea class="field-textarea" id="in-embed"></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="f-btn">Add doctor</button>
+                <button type="button" class="btn btn-ghost" id="f-cancel" style="display:none"
+                  onclick="resetForm()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS ================= -->
+  <div class="panel" id="panel-settings">
+    <div class="admin-wrap">
+      <div class="wrap">
+        <div class="card">
+          <div class="card-head">
+            <h3>Site appearance</h3>
+            <p>Branding, colours and the hero section of the public website.</p>
+          </div>
+          <div class="card-body">
+            <div class="row-2">
+              <div>
+                <label class="field-label" for="s-title">Clinic name</label>
+                <input class="field-input" id="s-title">
+              </div>
+              <div>
+                <label class="field-label" for="s-tagline">Tagline</label>
+                <input class="field-input" id="s-tagline">
+              </div>
+            </div>
+            <div class="row-2">
+              <div>
+                <label class="field-label" for="s-hero">Hero headline</label>
+                <input class="field-input" id="s-hero">
+              </div>
+              <div>
+                <label class="field-label" for="s-herosub">Hero paragraph</label>
+                <input class="field-input" id="s-herosub">
+              </div>
+            </div>
+            <div class="row-2">
+              <div>
+                <label class="field-label" for="s-primary">Primary colour</label>
+                <div style="display:flex;gap:10px;align-items:center">
+                  <input class="field-color" type="color" id="s-primary">
+                  <span class="hint" id="s-primary-hex" style="margin:0"></span>
+                </div>
+              </div>
+              <div>
+                <label class="field-label" for="s-secondary">Accent colour</label>
+                <div style="display:flex;gap:10px;align-items:center">
+                  <input class="field-color" type="color" id="s-secondary">
+                  <span class="hint" id="s-secondary-hex" style="margin:0"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row-2">
+              <div>
+                <label class="field-label">Logo</label>
+                <div class="drop" id="logo-drop">
+                  <input type="file" accept="image/*" onchange="uploadSetting(event,'logoData','logo-drop')">
+                  <p>Click to upload a logo</p>
+                </div>
+              </div>
+              <div>
+                <label class="field-label">Hero background image</label>
+                <div class="drop" id="hero-drop">
+                  <input type="file" accept="image/*" onchange="uploadSetting(event,'heroData','hero-drop')">
+                  <p>Click to upload a background</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="saveSettings()">Save changes</button>
+              <button class="btn btn-ghost" onclick="resetAll()">Reset demo data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL + TOAST ================= -->
+  <div class="modal-bg" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <h3 id="modal-title">Book an appointment</h3>
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* =========== STORAGE (localStorage with in-memory fallback) =========== */
+    const MEM = {};
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch (e) { return MEM[k] ?? null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch (e) { MEM[k] = v; } }
+    };
+    const K_DEPT = 'hc_departments_v3', K_DOC = 'hc_doctors_v3', K_SET = 'hc_settings_v3';
+
+    /* Booking links copied from the Zoho Bookings "Embed as Button" dialogs */
+    const BOOK = {
+      cardiology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000030045',
+      dermatology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031212',
+      radiology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031229'
+    };
+
+    const DEF_DEPTS = [
+      {
+        id: 'cardiology', name: 'Cardiology', color: '#1F9D74',
+        desc: 'Heart and circulation care — chest pain, palpitations, high blood pressure, rhythm problems and follow-up after cardiac surgery. ECG, echo and treadmill testing are done on site, so you leave with results the same visit.',
+        tags: ['Chest pain', 'Palpitations', 'ECG and echo', 'Heart failure care'],
+        duration: '30 min consultation'
+      },
+      {
+        id: 'dermatology', name: 'Dermatology', color: '#B4654A',
+        desc: 'Skin, hair and nail conditions for adults and children — acne, eczema, psoriasis, fungal infections, hair loss and mole checks. Minor procedures such as biopsies and cautery are done in the clinic room.',
+        tags: ['Acne and eczema', 'Hair loss', 'Skin allergy', 'Mole and biopsy'],
+        duration: '30 min consultation'
+      },
+      {
+        id: 'radiology', name: 'Radiology', color: '#14496B',
+        desc: 'Imaging and reporting — X-ray, ultrasound, CT and MRI, plus scan-guided procedures. Book a slot for the scan itself or for a radiologist consultation to go through images taken elsewhere.',
+        tags: ['X-ray and ultrasound', 'CT and MRI', 'Scan review', 'Guided procedures'],
+        duration: '30 min appointment'
+      }
+    ];
+
+    /* Studio portraits (white coat, plain backdrop) from Unsplash.
+       Other IDs you can drop into PIC() while testing:
+         1612531385446-f7e6d131e1d0   male doctor, white coat, plain backdrop
+         1612349316228-5942a9b489c2   male doctor, white coat, glasses
+         1638202993928-7267aad84c31   female doctor with stethoscope
+         1594824476967-48c8b964273f   female doctor, teal scrubs
+         1637059824899-a441006a6875   male doctor, arms crossed          */
+    const PIC = id => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&crop=faces&w=900&h=1125&q=85';
+    const DEF_DOCS = [
+      {
+        name: 'Dr Vikram Nair', department: 'cardiology',
+        role: 'Interventional cardiology and the chest pain clinic',
+        photo: PIC('1612349317150-e413f6a5b16d'),
+        embedCode: BOOK.cardiology
+      },
+      {
+        name: 'Dr Meera Sundaram', department: 'dermatology',
+        role: 'Medical dermatology, acne and paediatric skin care',
+        photo: PIC('1659353888906-adb3e0041693'),
+        embedCode: BOOK.dermatology
+      },
+      {
+        name: 'Dr Prantar Chakrabarti', department: 'radiology',
+        role: 'Diagnostic imaging and scan-guided procedures',
+        photo: PIC('1645066928295-2506defde470'),
+        embedCode: BOOK.radiology
+      }
+    ];
+
+    /* Clinic logo, compressed to 128px and inlined so the page stays self-contained */
+    const LOGO = 'data:image/png;base64,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';
+
+    const DEF_SET = {
+      title: 'Homecare',
+      tagline: 'Your life is our life',
+      heroHeading: 'Good care begins with the right doctor',
+      heroSub: 'Meet our specialists, read what each department treats, and book a time that suits you. No phone calls, no waiting room queue.',
+      primary: '#14496B',
+      secondary: '#1F9D74',
+      logoData: LOGO,
+      heroData: 'https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1800&q=70'
+    };
+
+    function load(k, def) {
+      const raw = store.get(k);
+      if (raw) { try { return JSON.parse(raw); } catch (e) { } }
+      store.set(k, JSON.stringify(def));
+      return JSON.parse(JSON.stringify(def));
+    }
+    const getDepts = () => load(K_DEPT, DEF_DEPTS);
+    const getDocs = () => load(K_DOC, DEF_DOCS);
+    const getSet = () => Object.assign({}, DEF_SET, load(K_SET, DEF_SET));
+    const setDepts = v => store.set(K_DEPT, JSON.stringify(v));
+    const setDocs = v => store.set(K_DOC, JSON.stringify(v));
+    const setSet = v => store.set(K_SET, JSON.stringify(v));
+    const findDept = id => getDepts().find(d => d.id === id) || { id, name: id || 'Unassigned', color: '#8a90a3', desc: '', tags: [] };
+
+    /* =========== HELPERS =========== */
+    const esc = s => { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; };
+    const initials = n => n.replace(/^Dr\.?\s+/i, '').split(/\s+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    function tint(hex, a) {
+      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r},${g},${b},${a})`;
+    }
+    function shade(hex, pct) {
+      let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+      const f = v => Math.max(0, Math.min(255, Math.round(v + v * pct / 100)));
+      return '#' + [f(r), f(g), f(b)].map(v => v.toString(16).padStart(2, '0')).join('');
+    }
+    function toast(msg, err) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = 'toast' + (err ? ' err' : '');
+      void t.offsetWidth; t.classList.add('show');
+      clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    const ICON = {
+      cardiology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S3.5 15.2 3.5 9.6A4.6 4.6 0 0112 7.3a4.6 4.6 0 018.5 2.3c0 5.6-8.5 10.9-8.5 10.9z"/><path d="M4 12.6h3.6L9 10.2l1.8 4.4L12.4 12h3"/></svg>',
+      dermatology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 0115 0c0 4.2-2.6 8.5-7.5 8.5S4.5 16.2 4.5 12z"/><circle cx="9.6" cy="10.4" r="1.1"/><circle cx="14.3" cy="13.2" r="1.1"/><circle cx="10.8" cy="15.6" r="1.1"/></svg>',
+      radiology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M12 4v16"/><path d="M8.5 7.5c1.6 1 1.6 2.6 0 3.6s-1.6 2.6 0 3.6"/><path d="M15.5 7.5c-1.6 1-1.6 2.6 0 3.6s1.6 2.6 0 3.6"/></svg>',
+      _default: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg>'
+    };
+    const deptIcon = id => ICON[id] || ICON._default;
+
+    /* =========== APPLY SETTINGS =========== */
+    function applySettings() {
+      const s = getSet();
+      const root = document.documentElement.style;
+      root.setProperty('--primary', s.primary);
+      root.setProperty('--primary-dark', shade(s.primary, -22));
+      root.setProperty('--primary-tint', tint(s.primary, .09));
+      root.setProperty('--secondary', s.secondary);
+      root.setProperty('--secondary-tint', tint(s.secondary, .1));
+      document.getElementById('brand-name').textContent = s.title;
+      document.getElementById('brand-tag').textContent = s.tagline;
+      document.getElementById('foot-name').textContent = s.title;
+      document.getElementById('hero-welcome').textContent = 'Welcome to ' + s.title;
+      document.getElementById('hero-heading').textContent = s.heroHeading;
+      document.getElementById('hero-sub').textContent = s.heroSub;
+      document.title = s.title + ' — Book a specialist';
+      const hp = document.getElementById('hero-photo');
+      hp.style.backgroundImage = s.heroData ? `url("${s.heroData}")` : '';
+      const bm = document.getElementById('brand-mark');
+      if (s.logoData) bm.innerHTML = `<img src="${s.logoData}" alt="">`;
+    }
+
+    /* =========== RENDER: WEBSITE =========== */
+    function renderDepartments() {
+      const depts = getDepts(), docs = getDocs();
+      const el = document.getElementById('dept-list');
+      el.innerHTML = depts.map(d => {
+        const count = docs.filter(x => x.department === d.id).length;
+        const tags = (d.tags || []).map(t => `<span class="tagpill">${esc(t)}</span>`).join('');
+        return `<article class="dept-row" style="border-left-color:${d.color}">
+          <div class="d-icon" style="background:${tint(d.color, .12)};color:${d.color}">${deptIcon(d.id)}</div>
+          <div>
+            <h3>${esc(d.name)}</h3>
+            <p class="d-desc">${esc(d.desc || 'No description added yet.')}</p>
+            <div class="d-meta">${tags}
+              <span class="tagpill" style="background:${tint(d.color, .1)};border-color:transparent;color:${shade(d.color, -25)}">${count} doctor${count === 1 ? '' : 's'}</span>
+              ${d.duration ? `<span class="tagpill" style="background:${tint(d.color, .1)};border-color:transparent;color:${shade(d.color, -25)}">${esc(d.duration)}</span>` : ''}
+            </div>
+          </div>
+          <div class="d-go">
+            <button class="btn btn-ghost btn-sm" onclick="filterTo('${d.id}')">See doctors</button>
+          </div>
+        </article>`;
+      }).join('') || '<div class="empty"><h3>No departments yet</h3><p>Add one under Manage to start listing doctors.</p></div>';
+
+      document.getElementById('foot-depts').innerHTML = depts
+        .map(d => `<li><a href="#doctors" onclick="filterTo('${d.id}')">${esc(d.name)}</a></li>`).join('');
+    }
+
+    let activeFilter = 'all';
+    function renderFilters() {
+      const depts = getDepts();
+      document.getElementById('filter-bar').innerHTML =
+        `<button class="filter-btn ${activeFilter === 'all' ? 'on' : ''}" onclick="filterTo('all')">All doctors</button>` +
+        depts.map(d => `<button class="filter-btn ${activeFilter === d.id ? 'on' : ''}" onclick="filterTo('${d.id}')">
+            <span class="dot" style="background:${d.color}"></span>${esc(d.name)}</button>`).join('');
+    }
+
+    function renderDoctors() {
+      const docs = getDocs();
+      const grid = document.getElementById('doc-grid');
+      const list = docs.map((d, i) => ({ d, i })).filter(o => activeFilter === 'all' || o.d.department === activeFilter);
+      document.getElementById('doc-empty').style.display = list.length ? 'none' : '';
+      grid.innerHTML = list.map(({ d, i }) => {
+        const dept = findDept(d.department);
+        const photo = d.photo
+          ? `<img src="${esc(d.photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph-fallback',style:'background:${dept.color}',textContent:'${initials(d.name)}'}))">`
+          : `<div class="ph-fallback" style="background:${dept.color}">${initials(d.name)}</div>`;
+        return `<article class="doc-card">
+          <div class="doc-photo">${photo}<span class="badge" style="color:${shade(dept.color, -25)}">${esc(dept.name)}</span></div>
+          <div class="doc-body">
+            <h3>${esc(d.name)}</h3>
+            <p class="role">${esc(d.role || dept.name + ' specialist')}</p>
+            <button class="btn btn-primary" onclick="openBooking(${i})">Book appointment</button>
+          </div>
+        </article>`;
+      }).join('');
+    }
+
+    function filterTo(id) {
+      activeFilter = id;
+      renderFilters(); renderDoctors();
+      showPanel('site');
+      document.getElementById('doctors').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderPicker() {
+      const depts = getDepts();
+      const sel = document.getElementById('pick-dept');
+      sel.innerHTML = '<option value="">Any department</option>' +
+        depts.map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('');
+      onPickDept();
+    }
+    function onPickDept() {
+      const dept = document.getElementById('pick-dept').value;
+      const docs = getDocs();
+      document.getElementById('pick-doc').innerHTML = '<option value="">Select a doctor</option>' +
+        docs.map((d, i) => ({ d, i })).filter(o => !dept || o.d.department === dept)
+          .map(({ d, i }) => `<option value="${i}">${esc(d.name)}</option>`).join('');
+    }
+    function bookFromPicker() {
+      const v = document.getElementById('pick-doc').value;
+      if (v === '') { toast('Choose a doctor first', true); return; }
+      openBooking(+v);
+    }
+
+    /* =========== BOOKING MODAL =========== */
+    function openBooking(i) {
+      const doc = getDocs()[i]; if (!doc) return;
+      const dept = findDept(doc.department);
+      document.getElementById('modal-title').textContent = `${doc.name} — ${dept.name}`;
+      const body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      const code = (doc.embedCode || '').trim();
+      const urlMatch = code.match(/url:\s*["']([^"']+)["']/) || code.match(/^(https?:\/\/\S+)$/);
+      if (urlMatch) {
+        const f = document.createElement('iframe');
+        f.src = urlMatch[1]; f.loading = 'lazy'; f.title = 'Booking calendar';
+        body.appendChild(f);
+      } else if (code) {
+        const f = document.createElement('iframe');
+        f.srcdoc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{margin:0;font-family:system-ui,sans-serif;padding:16px}</style></head><body>${code}</body></html>`;
+        f.sandbox = 'allow-scripts allow-same-origin allow-popups allow-forms';
+        body.appendChild(f);
+      } else {
+        body.innerHTML = '<p style="padding:60px;text-align:center;color:var(--muted)">No booking link set for this doctor yet. Add one under Manage.</p>';
+      }
+      document.getElementById('modal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.getElementById('modal-body').innerHTML = '';
+    }
+    document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* =========== MANAGE: DEPARTMENTS =========== */
+    function renderChips() {
+      const depts = getDepts();
+      document.getElementById('dept-chips').innerHTML = depts.map((d, i) =>
+        `<span class="chip"><span class="dot" style="background:${d.color}"></span>${esc(d.name)}
+         <button onclick="removeDept(${i})" aria-label="Remove ${esc(d.name)}">&#x2715;</button></span>`).join('')
+        || '<p class="hint">No departments yet.</p>';
+      const sel = document.getElementById('in-dept'), prev = sel.value;
+      sel.innerHTML = '<option value="">Select a department</option>' +
+        depts.map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('');
+      if (prev) sel.value = prev;
+    }
+    function addDept() {
+      const name = document.getElementById('nd-name').value.trim();
+      if (!name) { toast('Enter a department name', true); return; }
+      const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+      const depts = getDepts();
+      if (depts.some(d => d.id === id)) { toast('That department already exists', true); return; }
+      depts.push({
+        id, name, color: document.getElementById('nd-color').value,
+        desc: document.getElementById('nd-desc').value.trim(),
+        duration: document.getElementById('nd-duration').value.trim(),
+        tags: document.getElementById('nd-tags').value.split(',').map(t => t.trim()).filter(Boolean)
+      });
+      setDepts(depts);
+      ['nd-name', 'nd-desc', 'nd-tags', 'nd-duration'].forEach(id => document.getElementById(id).value = '');
+      renderAll(); toast('Department added');
+    }
+    function removeDept(i) {
+      const depts = getDepts();
+      if (!confirm(`Remove ${depts[i].name}? Doctors in it will stay listed as unassigned.`)) return;
+      depts.splice(i, 1); setDepts(depts); renderAll(); toast('Department removed');
+    }
+
+    /* =========== MANAGE: DOCTORS =========== */
+    function renderDocList() {
+      const docs = getDocs();
+      const ul = document.getElementById('doc-list');
+      if (!docs.length) { ul.innerHTML = '<li class="hint">No doctors added yet.</li>'; return; }
+      ul.innerHTML = docs.map((d, i) => {
+        const dept = findDept(d.department);
+        const av = d.photo ? `<span class="avatar"><img src="${esc(d.photo)}" alt=""></span>`
+          : `<span class="avatar" style="background:${dept.color}">${initials(d.name)}</span>`;
+        const code = d.embedCode ? esc(d.embedCode.slice(0, 90)) + (d.embedCode.length > 90 ? '…' : '') : 'No booking link';
+        return `<li class="list-row">${av}
+          <div class="row-main"><div class="n">${esc(d.name)}</div><div class="d">${esc(dept.name)} · ${esc(d.role || '—')}</div></div>
+          <div class="row-code">${code}</div>
+          <div class="row-actions">
+            <button class="icon-btn" title="Edit" onclick="editDoc(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button>
+            <button class="icon-btn danger" title="Delete" onclick="deleteDoc(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+          </div></li>`;
+      }).join('');
+    }
+
+    function submitDoc(e) {
+      e.preventDefault();
+      const docs = getDocs();
+      const idx = +document.getElementById('edit-idx').value;
+      const obj = {
+        name: document.getElementById('in-name').value.trim(),
+        department: document.getElementById('in-dept').value,
+        role: document.getElementById('in-role').value.trim(),
+        photo: document.getElementById('in-photo').value.trim(),
+        embedCode: document.getElementById('in-embed').value.trim()
+      };
+      if (!obj.name || !obj.department) { toast('Name and department are required', true); return; }
+      if (idx >= 0) { docs[idx] = obj; toast('Doctor updated'); } else { docs.push(obj); toast('Doctor added'); }
+      setDocs(docs); resetForm(); renderAll();
+    }
+    function editDoc(i) {
+      const d = getDocs()[i]; if (!d) return;
+      document.getElementById('edit-idx').value = i;
+      document.getElementById('in-name').value = d.name;
+      document.getElementById('in-dept').value = d.department;
+      document.getElementById('in-role').value = d.role || '';
+      document.getElementById('in-photo').value = d.photo || '';
+      document.getElementById('in-embed').value = d.embedCode || '';
+      document.getElementById('f-title').textContent = 'Edit doctor';
+      document.getElementById('f-sub').textContent = 'Update the details, then save your changes.';
+      document.getElementById('f-btn').textContent = 'Save changes';
+      document.getElementById('f-cancel').style.display = '';
+      document.getElementById('doc-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function deleteDoc(i) {
+      const docs = getDocs();
+      if (!confirm(`Remove ${docs[i].name} from the website?`)) return;
+      docs.splice(i, 1); setDocs(docs); renderAll(); toast('Doctor removed');
+    }
+    function resetForm() {
+      document.getElementById('doc-form').reset();
+      document.getElementById('edit-idx').value = -1;
+      document.getElementById('f-title').textContent = 'Add a doctor';
+      document.getElementById('f-sub').textContent = 'The photo and description appear on the doctor card. The embed code powers the booking window.';
+      document.getElementById('f-btn').textContent = 'Add doctor';
+      document.getElementById('f-cancel').style.display = 'none';
+      document.getElementById('doc-drop-text').textContent = 'Click to upload a portrait';
+    }
+    function uploadDocPhoto(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        document.getElementById('in-photo').value = ev.target.result;
+        document.getElementById('doc-drop-text').textContent = 'Photo attached — save the doctor to apply it';
+      };
+      r.readAsDataURL(f);
+    }
+
+    /* =========== SETTINGS =========== */
+    function loadSettingsForm() {
+      const s = getSet();
+      document.getElementById('s-title').value = s.title;
+      document.getElementById('s-tagline').value = s.tagline;
+      document.getElementById('s-hero').value = s.heroHeading;
+      document.getElementById('s-herosub').value = s.heroSub;
+      document.getElementById('s-primary').value = s.primary;
+      document.getElementById('s-secondary').value = s.secondary;
+      document.getElementById('s-primary-hex').textContent = s.primary;
+      document.getElementById('s-secondary-hex').textContent = s.secondary;
+      if (s.logoData) document.getElementById('logo-drop').querySelector('p').outerHTML = `<img src="${s.logoData}" alt=""><p>Click to change</p>`;
+      if (s.heroData) document.getElementById('hero-drop').querySelector('p').outerHTML = `<img src="${s.heroData}" alt=""><p>Click to change</p>`;
+    }
+    document.getElementById('s-primary').addEventListener('input', function () { document.getElementById('s-primary-hex').textContent = this.value; });
+    document.getElementById('s-secondary').addEventListener('input', function () { document.getElementById('s-secondary-hex').textContent = this.value; });
+
+    function uploadSetting(e, key, zoneId) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        const s = getSet(); s[key] = ev.target.result; setSet(s);
+        const zone = document.getElementById(zoneId);
+        zone.innerHTML = `<input type="file" accept="image/*" onchange="uploadSetting(event,'${key}','${zoneId}')"><img src="${ev.target.result}" alt=""><p>Click to change</p>`;
+        applySettings();
+      };
+      r.readAsDataURL(f);
+    }
+    function saveSettings() {
+      const s = getSet();
+      s.title = document.getElementById('s-title').value.trim() || DEF_SET.title;
+      s.tagline = document.getElementById('s-tagline').value.trim();
+      s.heroHeading = document.getElementById('s-hero').value.trim() || DEF_SET.heroHeading;
+      s.heroSub = document.getElementById('s-herosub').value.trim();
+      s.primary = document.getElementById('s-primary').value;
+      s.secondary = document.getElementById('s-secondary').value;
+      setSet(s); applySettings(); renderAll(); toast('Changes saved');
+    }
+    function resetAll() {
+      if (!confirm('Reset departments, doctors and settings back to the demo data?')) return;
+      setDepts(DEF_DEPTS); setDocs(DEF_DOCS); setSet(DEF_SET);
+      applySettings(); loadSettingsForm(); renderAll(); toast('Demo data restored');
+    }
+
+    /* =========== PANELS =========== */
+    function showPanel(name) {
+      ['site', 'manage', 'settings'].forEach(p => {
+        document.getElementById('panel-' + p).classList.toggle('active', p === name);
+        document.getElementById('t-' + (p === 'site' ? 'site' : p)).classList.toggle('on', p === name);
+      });
+      if (name === 'manage') { renderChips(); renderDocList(); }
+      if (name === 'settings') loadSettingsForm();
+      if (name !== 'site') window.scrollTo({ top: 0 });
+    }
+
+    /* =========== INIT =========== */
+    /* Bump SEED_VERSION whenever DEF_DEPTS or DEF_DOCS change below.
+       On load, any browser holding older seed data is refreshed automatically,
+       so stale photos or doctor names from a previous run can't stick around.
+       Doctors you added yourself are kept. */
+    const SEED_VERSION = '2026-09-01-palette';
+    (function reseedIfStale() {
+      if (store.get('hc_seed_version') === SEED_VERSION) return;
+      const seededNames = DEF_DOCS.map(d => d.name);
+      const custom = getDocs().filter(d => !seededNames.includes(d.name) && !d.photo?.includes('randomuser'));
+      setDepts(DEF_DEPTS);
+      setDocs(DEF_DOCS.concat(custom));
+      // Refresh hero copy only if it is still an older built-in default
+      const OLD_HEADINGS = ['Book Your Appointment', 'Care that starts with the right specialist'];
+      const s = getSet();
+      if (OLD_HEADINGS.includes(s.heroHeading)) {
+        s.heroHeading = DEF_SET.heroHeading;
+        s.heroSub = DEF_SET.heroSub;
+      }
+      if (s.primary === '#5646A5') s.primary = DEF_SET.primary;
+      if (s.secondary === '#0E9384') s.secondary = DEF_SET.secondary;
+      if (!s.logoData) s.logoData = LOGO;
+      setSet(s);
+      store.set('hc_seed_version', SEED_VERSION);
+    })();
+
+    function renderAll() {
+      renderDepartments(); renderFilters(); renderDoctors();
+      renderPicker(); renderChips(); renderDocList();
+    }
+    applySettings();
+    renderAll();
+  </script>
+</body>
+
+</html>
