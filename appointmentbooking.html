@@ -1613,7 +1613,7 @@
     const BOOK = {
       cardiology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000030045',
       dermatology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031212',
-      radiology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031229'
+      radiology: 'https://healthcare.localzohobookings.com/portal-embed#/124347000000034046'
     };
 
     const DEF_DEPTS = [
@@ -1695,6 +1695,11 @@
       if (!Array.isArray(docs) || docs.some(d => d.name?.includes('Nair') || d.name?.includes('Sundaram') || d.name?.includes('Chakrabarti'))) {
         setDocs(DEF_DOCS);
         return DEF_DOCS;
+      }
+      const radDoc = docs.find(d => d.department === 'radiology');
+      if (radDoc && radDoc.embedCode !== BOOK.radiology && (radDoc.embedCode.includes('472180000000031229') || !radDoc.embedCode.includes('124347000000034046'))) {
+        radDoc.embedCode = BOOK.radiology;
+        setDocs(docs);
       }
       return docs;
     };
