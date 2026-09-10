@@ -1613,7 +1613,7 @@
     const BOOK = {
       cardiology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000030045',
       dermatology: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031212',
-      radiology: 'https://healthcare.localzohobookings.com/portal-embed#/124347000000034046'
+      psychologist: 'https://homecare4.zohobookings.in/portal-embed#/472180000000031229'
     };
 
     const DEF_DEPTS = [
@@ -1630,10 +1630,10 @@
         duration: '30 min consultation'
       },
       {
-        id: 'radiology', name: 'Radiology', color: '#14496B',
-        desc: 'Imaging and reporting — X-ray, ultrasound, CT and MRI, plus scan-guided procedures. Book a slot for the scan itself or for a radiologist consultation to go through images taken elsewhere.',
-        tags: ['X-ray and ultrasound', 'CT and MRI', 'Scan review', 'Guided procedures'],
-        duration: '30 min appointment'
+        id: 'psychologist', name: 'Psychologist', color: '#5646A5',
+        desc: 'Mental health, behavioral therapy and emotional well-being — counseling for anxiety, stress management, depression, relationship issues and psychological evaluations.',
+        tags: ['Mental Health', 'Anxiety & Stress', 'CBT & Counseling', 'Psychological Evaluation'],
+        duration: '30 min consultation'
       }
     ];
 
@@ -1661,16 +1661,16 @@
         embedCode: BOOK.dermatology
       },
       {
-        name: 'Dr Steve Smith', department: 'radiology',
+        name: 'Dr Steve Smith', department: 'psychologist',
         email: 'shahinaa.sk+doctor1@zohotest.com',
-        role: 'Diagnostic imaging and scan-guided procedures',
+        role: 'Psychology and mental health consultation',
         photo: PIC('1622253692010-333f2da6031d'),
-        embedCode: BOOK.radiology
+        embedCode: BOOK.psychologist
       }
     ];
 
     /* Clinic logo, compressed to 128px and inlined so the page stays self-contained */
-    const LOGO = 'data:image/png;base64,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';
+    const LOGO = 'data:image/png;base64,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';
 
     const DEF_SET = {
       title: 'ZFH Healthcare',
@@ -1689,18 +1689,40 @@
       store.set(k, JSON.stringify(def));
       return JSON.parse(JSON.stringify(def));
     }
-    const getDepts = () => load(K_DEPT, DEF_DEPTS);
+    const getDepts = () => {
+      const depts = load(K_DEPT, DEF_DEPTS);
+      let changed = false;
+      depts.forEach(d => {
+        if (d.id === 'radiology') {
+          d.id = 'psychologist';
+          d.name = 'Psychologist';
+          d.color = '#5646A5';
+          d.desc = 'Mental health, behavioral therapy and emotional well-being — counseling for anxiety, stress management, depression, relationship issues and psychological evaluations.';
+          d.tags = ['Mental Health', 'Anxiety & Stress', 'CBT & Counseling', 'Psychological Evaluation'];
+          d.duration = '30 min consultation';
+          changed = true;
+        }
+      });
+      if (changed) setDepts(depts);
+      return depts;
+    };
+
     const getDocs = () => {
       const docs = load(K_DOC, DEF_DOCS);
       if (!Array.isArray(docs) || docs.some(d => d.name?.includes('Nair') || d.name?.includes('Sundaram') || d.name?.includes('Chakrabarti'))) {
         setDocs(DEF_DOCS);
         return DEF_DOCS;
       }
-      const radDoc = docs.find(d => d.department === 'radiology');
-      if (radDoc && radDoc.embedCode !== BOOK.radiology && (radDoc.embedCode.includes('472180000000031229') || !radDoc.embedCode.includes('124347000000034046'))) {
-        radDoc.embedCode = BOOK.radiology;
-        setDocs(docs);
-      }
+      let changed = false;
+      docs.forEach(d => {
+        if (d.department === 'radiology' || d.name === 'Dr Steve Smith') {
+          d.department = 'psychologist';
+          d.role = 'Psychology and mental health consultation';
+          d.embedCode = BOOK.psychologist;
+          changed = true;
+        }
+      });
+      if (changed) setDocs(docs);
       return docs;
     };
     const getSet = () => { const s = Object.assign({}, DEF_SET, load(K_SET, DEF_SET)); if (!s.title || s.title === 'Homecare' || s.title === 'Healthcare') s.title = 'ZFH Healthcare'; return s; };
@@ -1731,7 +1753,8 @@
     const ICON = {
       cardiology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S3.5 15.2 3.5 9.6A4.6 4.6 0 0112 7.3a4.6 4.6 0 018.5 2.3c0 5.6-8.5 10.9-8.5 10.9z"/><path d="M4 12.6h3.6L9 10.2l1.8 4.4L12.4 12h3"/></svg>',
       dermatology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 0115 0c0 4.2-2.6 8.5-7.5 8.5S4.5 16.2 4.5 12z"/><circle cx="9.6" cy="10.4" r="1.1"/><circle cx="14.3" cy="13.2" r="1.1"/><circle cx="10.8" cy="15.6" r="1.1"/></svg>',
-      radiology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M12 4v16"/><path d="M8.5 7.5c1.6 1 1.6 2.6 0 3.6s-1.6 2.6 0 3.6"/><path d="M15.5 7.5c-1.6 1-1.6 2.6 0 3.6s1.6 2.6 0 3.6"/></svg>',
+      psychologist: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
+      psychology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
       _default: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg>'
     };
     const deptIcon = id => ICON[id] || ICON._default;
