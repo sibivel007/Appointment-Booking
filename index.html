@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
     rel="stylesheet">
   <style>
     *,
@@ -22,27 +22,46 @@
     }
 
     :root {
+      /* brand (driven by Settings panel) */
       --primary: #14496B;
       --primary-dark: #0e3550;
       --primary-tint: #e9f0f6;
       --secondary: #1F9D74;
       --secondary-tint: #e6f5ef;
-      --ink: #10202e;
-      --body: #4d5266;
-      --muted: #8a90a3;
-      --paper: #f5f8fa;
+
+      /* ink + neutrals */
+      --ink: #0b1f33;
+      --body: #4a5b70;
+      --muted: #7f8fa4;
       --white: #ffffff;
-      --line: #e0e7ed;
-      --danger: #c62828;
-      --danger-tint: #fdf0f0;
+      --paper: rgba(255, 255, 255, .55);
+      --line: rgba(11, 31, 51, .10);
+
+      /* aurora accents */
+      --a-violet: #7C5CFF;
+      --a-aqua: #14C7B8;
+      --a-sky: #4FA8FF;
+      --a-coral: #FF7A59;
+
+      /* glass */
+      --glass: linear-gradient(155deg, rgba(255, 255, 255, .74), rgba(255, 255, 255, .46));
+      --glass-solid: linear-gradient(155deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .74));
+      --glass-edge: rgba(255, 255, 255, .8);
+      --blur: blur(20px) saturate(165%);
+
+      --danger: #d13b3b;
+      --danger-tint: rgba(209, 59, 59, .09);
       --success: #16a34a;
-      --r-s: 8px;
-      --r-m: 14px;
-      --r-l: 22px;
-      --shadow-s: 0 1px 3px rgba(23, 24, 43, .06);
-      --shadow-m: 0 10px 30px rgba(23, 24, 43, .08);
-      --shadow-l: 0 30px 70px rgba(23, 24, 43, .18);
-      --t: .18s ease;
+
+      --r-s: 12px;
+      --r-m: 18px;
+      --r-l: 28px;
+      --r-xl: 34px;
+
+      --shadow-s: 0 6px 18px -10px rgba(11, 31, 51, .35);
+      --shadow-m: 0 22px 48px -26px rgba(11, 31, 51, .45);
+      --shadow-l: 0 44px 90px -36px rgba(11, 31, 51, .55);
+      --t: .22s cubic-bezier(.4, .14, .3, 1);
     }
 
     html {
@@ -50,21 +69,55 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--white);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--body);
-      line-height: 1.6;
+      line-height: 1.62;
+      background: #e9f0f7;
       -webkit-font-smoothing: antialiased;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---- colourful aurora canvas behind the glass ---- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -20vh -10vw;
+      z-index: -2;
+      background:
+        radial-gradient(46vw 46vw at 10% 2%, rgba(124, 92, 255, .30), transparent 62%),
+        radial-gradient(40vw 40vw at 88% 6%, rgba(20, 199, 184, .30), transparent 60%),
+        radial-gradient(44vw 44vw at 78% 58%, rgba(79, 168, 255, .26), transparent 62%),
+        radial-gradient(38vw 38vw at 4% 72%, rgba(255, 122, 89, .22), transparent 60%),
+        radial-gradient(50vw 50vw at 50% 108%, rgba(31, 157, 116, .22), transparent 60%),
+        #eaf1f8;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .5;
+      background-image:
+        linear-gradient(rgba(11, 31, 51, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(11, 31, 51, .045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at 50% 30%, #000 10%, transparent 78%);
     }
 
     h1,
     h2,
     h3,
+    h4,
     .display {
-      font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+      font-family: 'Sora', 'Plus Jakarta Sans', sans-serif;
       color: var(--ink);
-      line-height: 1.12;
-      letter-spacing: -.02em;
+      line-height: 1.14;
+      letter-spacing: -.025em;
+      font-weight: 700;
     }
 
     img {
@@ -78,13 +131,14 @@
 
     :focus-visible {
       outline: 3px solid var(--primary);
-      outline-offset: 2px;
+      outline-offset: 3px;
+      border-radius: 6px;
     }
 
     .wrap {
-      max-width: 1120px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 22px;
     }
 
     /* ============ HEADER ============ */
@@ -92,16 +146,20 @@
       position: sticky;
       top: 0;
       z-index: 90;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
     }
 
     .header-inner {
       display: flex;
       align-items: center;
-      gap: 24px;
-      height: 72px;
+      gap: 18px;
+      padding: 10px 12px 10px 16px;
+      border-radius: 999px;
+      background: var(--glass-solid);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-m);
     }
 
     .brand {
@@ -113,10 +171,12 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
-      background: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-s);
       display: grid;
       place-items: center;
       overflow: hidden;
@@ -124,8 +184,8 @@
     }
 
     .brand-mark svg {
-      width: 21px;
-      height: 21px;
+      width: 22px;
+      height: 22px;
       color: var(--primary);
     }
 
@@ -136,45 +196,49 @@
     }
 
     .brand-name {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 1.12rem;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1.08rem;
       color: var(--ink);
-      line-height: 1.1;
+      line-height: 1.15;
+      display: block;
+      letter-spacing: -.02em;
     }
 
     .brand-tag {
       font-size: .74rem;
       color: var(--muted);
+      display: block;
     }
 
     .site-nav {
       display: flex;
-      gap: 4px;
+      gap: 2px;
       align-items: center;
     }
 
     .site-nav a {
-      padding: 8px 14px;
+      padding: 9px 15px;
       border-radius: 999px;
-      font-size: .88rem;
-      font-weight: 500;
+      font-size: .875rem;
+      font-weight: 600;
       color: var(--body);
       text-decoration: none;
       transition: var(--t);
     }
 
     .site-nav a:hover {
-      background: var(--paper);
+      background: rgba(255, 255, 255, .85);
       color: var(--ink);
+      box-shadow: var(--shadow-s);
     }
 
     .admin-toggle {
       display: flex;
-      background: var(--paper);
-      border: 1px solid var(--line);
+      background: rgba(11, 31, 51, .06);
+      border: 1px solid rgba(255, 255, 255, .7);
       border-radius: 999px;
-      padding: 3px;
+      padding: 4px;
       gap: 2px;
     }
 
@@ -183,9 +247,9 @@
       background: transparent;
       font: inherit;
       font-size: .8rem;
-      font-weight: 600;
-      color: var(--muted);
-      padding: 7px 15px;
+      font-weight: 700;
+      color: var(--body);
+      padding: 8px 15px;
       border-radius: 999px;
       cursor: pointer;
       transition: var(--t);
@@ -196,19 +260,9 @@
     }
 
     .admin-toggle button.on {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
-    }
-
-    .menu-btn {
-      display: none;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 10px;
-      cursor: pointer;
-      color: var(--ink);
+      box-shadow: 0 8px 20px -10px var(--primary);
     }
 
     /* ============ PANELS ============ */
@@ -222,9 +276,18 @@
 
     /* ============ HERO ============ */
     .hero {
+      padding: 8px 0 6px;
+    }
+
+    .hero-shell {
       position: relative;
       overflow: hidden;
-      background: var(--primary);
+      border-radius: var(--r-xl);
+      border: 1px solid rgba(255, 255, 255, .28);
+      box-shadow: var(--shadow-l);
+      background:
+        linear-gradient(122deg, rgba(9, 28, 46, .94) 4%, rgba(20, 73, 107, .86) 42%, rgba(31, 157, 116, .62) 100%),
+        linear-gradient(320deg, rgba(124, 92, 255, .55), transparent 55%);
       color: #fff;
     }
 
@@ -233,77 +296,106 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: .22;
+      opacity: .26;
+      mix-blend-mode: luminosity;
     }
 
     .hero-veil {
       position: absolute;
       inset: 0;
-      background: linear-gradient(105deg, var(--primary) 6%, rgba(20, 73, 107, .88) 46%, rgba(31, 157, 116, .62) 100%);
+      background:
+        radial-gradient(38% 60% at 88% 12%, rgba(20, 199, 184, .45), transparent 70%),
+        radial-gradient(46% 70% at 4% 96%, rgba(124, 92, 255, .42), transparent 70%);
     }
 
     .hero-inner {
       position: relative;
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 48px;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 52px;
       align-items: center;
-      min-height: 0;
-      padding: 60px 0 64px;
+      padding: 62px 56px 66px;
     }
 
     .hero .welcome {
-      display: block;
-      font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-      color: rgba(255, 255, 255, .9);
-      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-      font-weight: 500;
-      letter-spacing: -.01em;
-      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, .95);
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .28);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 999px;
+      margin-bottom: 20px;
     }
 
     .hero h1 {
       color: #fff;
-      font-size: clamp(2rem, 4.2vw, 2.85rem);
+      font-size: clamp(2.1rem, 4.4vw, 3.15rem);
       font-weight: 800;
       margin-bottom: 16px;
+      letter-spacing: -.035em;
     }
 
     .hero p.lede {
-      color: rgba(255, 255, 255, .86);
-      font-size: 1.02rem;
-      max-width: 44ch;
-      margin-bottom: 26px;
+      color: rgba(255, 255, 255, .84);
+      font-size: 1.03rem;
+      max-width: 46ch;
+      margin-bottom: 28px;
     }
 
     .hero-cta {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .hero-notes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-notes span {
+      font-size: .78rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .9);
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .22);
+      padding: 7px 14px;
+      border-radius: 999px;
     }
 
     /* quick picker card in hero */
     .picker {
-      background: #fff;
+      position: relative;
+      background: var(--glass-solid);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
       border-radius: var(--r-l);
-      padding: 24px;
+      padding: 28px;
       box-shadow: var(--shadow-l);
       color: var(--body);
     }
 
     .picker h3 {
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       margin-bottom: 4px;
     }
 
     .picker p {
-      font-size: .83rem;
+      font-size: .84rem;
       color: var(--muted);
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .picker .field-label {
-      margin-top: 14px;
+      margin-top: 15px;
     }
 
     .picker .field-label:first-of-type {
@@ -313,26 +405,21 @@
     .picker .btn {
       width: 100%;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     /* ============ SECTIONS ============ */
     .section {
-      padding: 84px 0;
-    }
-
-    .section.alt {
-      background: var(--paper);
-      border-block: 1px solid var(--line);
+      padding: 78px 0;
     }
 
     .section-head {
-      max-width: 62ch;
-      margin-bottom: 44px;
+      max-width: 60ch;
+      margin-bottom: 40px;
     }
 
     .section-head h2 {
-      font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+      font-size: clamp(1.8rem, 3.4vw, 2.45rem);
       font-weight: 700;
       margin-bottom: 12px;
     }
@@ -346,17 +433,40 @@
     .about-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+      gap: 22px;
     }
 
     .about-item {
-      padding-top: 20px;
-      border-top: 2px solid var(--ink);
+      position: relative;
+      padding: 26px 24px 24px;
+      border-radius: var(--r-m);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-s);
+      overflow: hidden;
+    }
+
+    .about-item::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--a-violet), var(--a-sky), var(--a-aqua));
+    }
+
+    .about-item:nth-child(2)::before {
+      background: linear-gradient(90deg, var(--a-aqua), var(--secondary), var(--a-sky));
+    }
+
+    .about-item:nth-child(3)::before {
+      background: linear-gradient(90deg, var(--a-coral), var(--a-violet));
     }
 
     .about-item h3 {
-      font-size: 1.02rem;
-      margin-bottom: 7px;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
     }
 
     .about-item p {
@@ -371,129 +481,161 @@
     }
 
     .dept-row {
+      position: relative;
       display: grid;
-      grid-template-columns: 56px 1fr auto;
+      grid-template-columns: 62px 1fr auto;
       gap: 26px;
       align-items: start;
-      background: var(--white);
-      border: 1px solid var(--line);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
       border-left: 5px solid var(--primary);
       border-radius: var(--r-m);
       padding: 28px 30px;
+      box-shadow: var(--shadow-s);
+      overflow: hidden;
+    }
+
+    .dept-row::after {
+      content: '';
+      position: absolute;
+      right: -70px;
+      top: -90px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .08;
+      filter: blur(28px);
+      pointer-events: none;
     }
 
     .dept-row .d-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 15px;
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
       display: grid;
       place-items: center;
+      border: 1px solid rgba(255, 255, 255, .75);
+      box-shadow: var(--shadow-s);
     }
 
     .dept-row .d-icon svg {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
     }
 
     .dept-row h3 {
-      font-size: 1.22rem;
-      margin-bottom: 6px;
+      font-size: 1.28rem;
+      margin-bottom: 7px;
     }
 
     .dept-row .d-desc {
       font-size: .94rem;
       max-width: 66ch;
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
     .dept-row .d-meta {
       display: flex;
-      gap: 10px;
+      gap: 9px;
       flex-wrap: wrap;
     }
 
     .tagpill {
-      font-size: .76rem;
-      font-weight: 600;
-      padding: 5px 11px;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 6px 13px;
       border-radius: 999px;
-      background: var(--paper);
-      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .7);
+      border: 1px solid var(--glass-edge);
       color: var(--body);
+      backdrop-filter: blur(6px);
     }
 
     .dept-row .d-go {
       align-self: center;
+      position: relative;
+      z-index: 1;
     }
 
     /* doctors */
     .filter-bar {
       display: flex;
-      gap: 8px;
+      gap: 9px;
       flex-wrap: wrap;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
     .filter-btn {
-      border: 1px solid var(--line);
-      background: #fff;
+      border: 1px solid var(--glass-edge);
+      background: rgba(255, 255, 255, .6);
+      backdrop-filter: blur(10px);
       font: inherit;
       font-size: .85rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--body);
-      padding: 9px 18px;
+      padding: 10px 19px;
       border-radius: 999px;
       cursor: pointer;
       transition: var(--t);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      box-shadow: var(--shadow-s);
     }
 
     .filter-btn .dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, .6);
     }
 
     .filter-btn:hover {
-      border-color: var(--muted);
+      color: var(--ink);
+      transform: translateY(-1px);
     }
 
     .filter-btn.on {
-      background: var(--ink);
-      border-color: var(--ink);
+      background: linear-gradient(135deg, var(--ink), #1c3d5a);
+      border-color: transparent;
       color: #fff;
     }
 
     .doc-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
-      gap: 26px;
+      grid-template-columns: repeat(auto-fill, minmax(276px, 1fr));
+      gap: 24px;
     }
 
     .doc-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--r-m);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
+      border-radius: var(--r-l);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: box-shadow var(--t), border-color var(--t);
+      box-shadow: var(--shadow-s);
+      transition: transform var(--t), box-shadow var(--t);
     }
 
     .doc-card:hover {
+      transform: translateY(-4px);
       box-shadow: var(--shadow-m);
-      border-color: #cfd2e0;
     }
 
     .doc-photo {
       position: relative;
       margin: 14px 14px 0;
-      border-radius: 12px;
+      border-radius: 20px;
       aspect-ratio: 4 / 5;
-      background: linear-gradient(165deg, #eef0f5, #e3e7ee);
+      background: linear-gradient(165deg, rgba(124, 92, 255, .35), rgba(20, 199, 184, .35));
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .6);
     }
 
     .doc-photo img {
@@ -508,8 +650,8 @@
       height: 100%;
       display: grid;
       place-items: center;
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 2.1rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 2.2rem;
       font-weight: 700;
       color: #fff;
     }
@@ -519,13 +661,14 @@
       left: 12px;
       top: 12px;
       z-index: 2;
-      background: rgba(255, 255, 255, .94);
-      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, .78);
+      backdrop-filter: blur(10px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, .8);
       border-radius: 999px;
-      padding: 6px 13px;
+      padding: 6px 14px;
       font-size: .74rem;
       font-weight: 700;
-      box-shadow: 0 2px 8px rgba(12, 13, 26, .12);
+      box-shadow: var(--shadow-s);
     }
 
     .doc-body {
@@ -536,7 +679,7 @@
     }
 
     .doc-body h3 {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       margin-bottom: 5px;
     }
 
@@ -554,10 +697,11 @@
 
     .empty {
       text-align: center;
-      padding: 60px 24px;
-      border: 2px dashed var(--line);
+      padding: 58px 24px;
+      border: 1.5px dashed rgba(11, 31, 51, .18);
       border-radius: var(--r-m);
-      background: #fff;
+      background: rgba(255, 255, 255, .5);
+      backdrop-filter: blur(10px);
     }
 
     .empty h3 {
@@ -574,37 +718,41 @@
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+      gap: 20px;
       counter-reset: s;
     }
 
     .step {
       position: relative;
-      padding-left: 52px;
+      padding: 26px 24px 24px 24px;
+      border-radius: var(--r-m);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-s);
     }
 
     .step::before {
       counter-increment: s;
       content: counter(s);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(140deg, var(--primary), var(--secondary));
       color: #fff;
       display: grid;
       place-items: center;
-      font-family: 'Bricolage Grotesque', sans-serif;
+      font-family: 'Sora', sans-serif;
       font-weight: 700;
       font-size: .95rem;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 22px -12px var(--primary);
     }
 
     .step h3 {
-      font-size: 1rem;
-      margin-bottom: 6px;
-      padding-top: 5px;
+      font-size: 1.02rem;
+      margin-bottom: 7px;
     }
 
     .step p {
@@ -613,35 +761,44 @@
 
     /* footer */
     .site-footer {
-      background: var(--ink);
-      color: rgba(255, 255, 255, .72);
-      padding: 54px 0 34px;
+      margin: 26px 0 22px;
+      color: rgba(255, 255, 255, .76);
       font-size: .9rem;
+    }
+
+    .footer-shell {
+      border-radius: var(--r-xl);
+      padding: 48px 46px 30px;
+      background:
+        linear-gradient(140deg, rgba(9, 28, 46, .95), rgba(20, 73, 107, .9) 60%, rgba(31, 157, 116, .68));
+      border: 1px solid rgba(255, 255, 255, .18);
+      box-shadow: var(--shadow-l);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-columns: 1.5fr 1fr 1fr;
       gap: 40px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid rgba(255, 255, 255, .14);
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
     }
 
     .site-footer h4 {
       color: #fff;
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: .95rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
       margin-bottom: 12px;
     }
 
     .site-footer ul {
       list-style: none;
       display: grid;
-      gap: 7px;
+      gap: 8px;
     }
 
     .site-footer a {
       text-decoration: none;
+      transition: var(--t);
     }
 
     .site-footer a:hover {
@@ -649,32 +806,33 @@
     }
 
     .footer-base {
-      padding-top: 22px;
+      padding-top: 20px;
       font-size: .82rem;
-      color: rgba(255, 255, 255, .5);
+      color: rgba(255, 255, 255, .55);
     }
 
     /* ============ FORM BITS ============ */
     .field-label {
       display: block;
       font-size: .8rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink);
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .field-input,
     .field-select,
     .field-textarea {
       width: 100%;
-      padding: 12px 14px;
-      background: #fff;
-      border: 1.5px solid var(--line);
+      padding: 13px 15px;
+      background: rgba(255, 255, 255, .78);
+      border: 1.5px solid rgba(11, 31, 51, .12);
       border-radius: var(--r-s);
       color: var(--ink);
       font-family: inherit;
       font-size: .92rem;
       transition: var(--t);
+      backdrop-filter: blur(8px);
     }
 
     .field-input:focus,
@@ -682,20 +840,21 @@
     .field-textarea:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-tint);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--primary-tint);
     }
 
     .field-select {
       cursor: pointer;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238a90a3' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237f8fa4' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 13px center;
-      padding-right: 38px;
+      background-position: right 14px center;
+      padding-right: 40px;
     }
 
     .field-textarea {
-      min-height: 108px;
+      min-height: 112px;
       resize: vertical;
       font-family: ui-monospace, 'Courier New', monospace;
       font-size: .8rem;
@@ -703,10 +862,10 @@
     }
 
     .field-color {
-      height: 44px;
-      width: 58px;
+      height: 46px;
+      width: 60px;
       padding: 3px;
-      border: 1.5px solid var(--line);
+      border: 1.5px solid rgba(11, 31, 51, .12);
       border-radius: var(--r-s);
       cursor: pointer;
       background: #fff;
@@ -715,19 +874,19 @@
     .hint {
       font-size: .78rem;
       color: var(--muted);
-      margin-top: 5px;
+      margin-top: 6px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
+      gap: 9px;
+      padding: 13px 24px;
       border: none;
       border-radius: var(--r-s);
       font-family: inherit;
       font-size: .88rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: var(--t);
       text-decoration: none;
@@ -740,12 +899,14 @@
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
+      box-shadow: 0 14px 28px -16px var(--primary);
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
+      filter: brightness(1.07);
+      transform: translateY(-1px);
     }
 
     .btn-ink {
@@ -754,49 +915,54 @@
     }
 
     .btn-ink:hover {
-      background: #2b2d47;
+      background: #14344f;
     }
 
     .btn-light {
+      background: rgba(255, 255, 255, .94);
+      color: var(--ink);
+      box-shadow: var(--shadow-m);
+    }
+
+    .btn-light:hover {
+      background: #fff;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .6);
+      color: var(--body);
+      border: 1.5px solid var(--glass-edge);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-ghost:hover {
       background: #fff;
       color: var(--ink);
     }
 
-    .btn-light:hover {
-      background: #f0f0f6;
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--body);
-      border: 1.5px solid var(--line);
-    }
-
-    .btn-ghost:hover {
-      background: var(--paper);
-    }
-
     .btn-outline-light {
-      background: transparent;
+      background: rgba(255, 255, 255, .1);
       color: #fff;
-      border: 1.5px solid rgba(255, 255, 255, .5);
+      border: 1.5px solid rgba(255, 255, 255, .45);
+      backdrop-filter: blur(8px);
     }
 
     .btn-outline-light:hover {
-      background: rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .2);
     }
 
     .btn-sm {
-      padding: 9px 16px;
+      padding: 10px 17px;
       font-size: .82rem;
     }
 
     .icon-btn {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: var(--r-s);
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--glass-edge);
+      background: rgba(255, 255, 255, .8);
+      border-radius: 11px;
       color: var(--muted);
       cursor: pointer;
       transition: var(--t);
@@ -811,50 +977,52 @@
 
     .icon-btn:hover {
       color: var(--ink);
-      border-color: var(--muted);
+      box-shadow: var(--shadow-s);
     }
 
     .icon-btn.danger:hover {
       color: var(--danger);
       background: var(--danger-tint);
-      border-color: #f3c9c9;
     }
 
     /* ============ ADMIN ============ */
     .admin-wrap {
-      padding: 44px 0 90px;
-      background: var(--paper);
+      padding: 32px 0 84px;
       min-height: 70vh;
     }
 
     .card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--r-m);
-      box-shadow: var(--shadow-s);
+      background: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
+      border-radius: var(--r-l);
+      box-shadow: var(--shadow-m);
+      overflow: hidden;
     }
 
     .card+.card {
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     .card-head {
-      padding: 20px 26px;
-      border-bottom: 1px solid var(--line);
+      padding: 22px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, .55);
+      background: rgba(255, 255, 255, .3);
     }
 
     .card-head h3 {
-      font-size: 1.02rem;
+      font-size: 1.06rem;
     }
 
     .card-head p {
       font-size: .84rem;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .card-body {
-      padding: 24px 26px;
+      padding: 26px 28px;
     }
 
     .row-2 {
@@ -885,23 +1053,23 @@
     .list {
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 11px;
     }
 
     .list-row {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 14px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r-s);
+      padding: 15px 17px;
+      background: rgba(255, 255, 255, .55);
+      border: 1px solid var(--glass-edge);
+      border-radius: var(--r-m);
       flex-wrap: wrap;
     }
 
     .avatar {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
@@ -911,6 +1079,8 @@
       font-weight: 700;
       font-size: .8rem;
       overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, .85);
+      box-shadow: var(--shadow-s);
     }
 
     .avatar img {
@@ -925,9 +1095,9 @@
     }
 
     .row-main .n {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink);
-      font-size: .92rem;
+      font-size: .93rem;
     }
 
     .row-main .d {
@@ -941,10 +1111,10 @@
       font-family: ui-monospace, monospace;
       font-size: .7rem;
       color: var(--muted);
-      background: #fff;
-      border: 1px solid var(--line);
-      padding: 8px 11px;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid var(--glass-edge);
+      padding: 9px 12px;
+      border-radius: 9px;
       max-height: 46px;
       overflow: hidden;
       word-break: break-all;
@@ -958,26 +1128,27 @@
     .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 9px;
+      margin-bottom: 22px;
     }
 
     .chip {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 7px 13px;
+      gap: 9px;
+      padding: 8px 14px;
       border-radius: 999px;
       font-size: .82rem;
-      font-weight: 600;
-      border: 1px solid var(--line);
-      background: #fff;
+      font-weight: 700;
+      border: 1px solid var(--glass-edge);
+      background: rgba(255, 255, 255, .75);
       color: var(--ink);
+      box-shadow: var(--shadow-s);
     }
 
     .chip .dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
     }
 
@@ -996,15 +1167,16 @@
     }
 
     .drop {
-      border: 2px dashed var(--line);
-      border-radius: var(--r-s);
+      border: 1.5px dashed rgba(11, 31, 51, .2);
+      border-radius: var(--r-m);
       padding: 22px;
       text-align: center;
       cursor: pointer;
       position: relative;
-      min-height: 118px;
+      min-height: 122px;
       display: grid;
       place-items: center;
+      background: rgba(255, 255, 255, .45);
       transition: var(--t);
     }
 
@@ -1027,7 +1199,7 @@
 
     .drop img {
       max-height: 92px;
-      border-radius: 6px;
+      border-radius: 8px;
       margin: 0 auto 6px;
     }
 
@@ -1036,8 +1208,8 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(23, 24, 43, .55);
-      backdrop-filter: blur(4px);
+      background: rgba(9, 24, 40, .5);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       align-items: center;
       justify-content: center;
@@ -1049,10 +1221,13 @@
     }
 
     .modal {
-      background: #fff;
+      background: var(--glass-solid);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
       border-radius: var(--r-l);
       width: 100%;
-      max-width: 940px;
+      max-width: 960px;
       max-height: 94vh;
       overflow: hidden;
       box-shadow: var(--shadow-l);
@@ -1065,28 +1240,35 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--line);
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, .6);
     }
 
     .modal-head h3 {
-      font-size: 1rem;
+      font-size: 1.02rem;
     }
 
     .modal-close {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--line);
-      background: var(--paper);
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--glass-edge);
+      background: rgba(255, 255, 255, .7);
       border-radius: 50%;
       cursor: pointer;
       font-size: 17px;
       color: var(--body);
       flex-shrink: 0;
+      transition: var(--t);
     }
 
     .modal-close:hover {
-      background: #ececf4;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      background: #fff;
     }
 
     .modal-body iframe {
@@ -1098,16 +1280,17 @@
 
     .toast {
       position: fixed;
-      bottom: 22px;
-      right: 22px;
+      bottom: 24px;
+      right: 24px;
       z-index: 2000;
-      background: #fff;
-      border: 1px solid var(--line);
+      background: var(--glass-solid);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-edge);
       border-left: 4px solid var(--success);
       border-radius: var(--r-s);
-      padding: 13px 20px;
+      padding: 14px 22px;
       font-size: .85rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--ink);
       box-shadow: var(--shadow-m);
       transform: translateY(80px);
@@ -1128,24 +1311,26 @@
     .booking-confirm-banner {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 22px;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
+      gap: 15px;
+      padding: 16px 24px;
+      background: linear-gradient(120deg, rgba(124, 92, 255, .12), rgba(20, 199, 184, .14));
+      border-bottom: 1px solid rgba(255, 255, 255, .6);
     }
 
     .booking-confirm-banner .avatar {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       font-size: .8rem;
     }
 
     .booking-confirm-banner img.confirm-avatar {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
+      border: 2px solid rgba(255, 255, 255, .9);
+      box-shadow: var(--shadow-s);
     }
 
     .booking-confirm-banner .confirm-text {
@@ -1164,7 +1349,7 @@
     }
 
     /* ============ RESPONSIVE ============ */
-    @media (max-width: 960px) {
+    @media (max-width: 1000px) {
 
       .hero-inner,
       .about-grid,
@@ -1174,12 +1359,23 @@
       }
 
       .hero-inner {
-        padding: 54px 0 60px;
-        gap: 36px;
+        padding: 44px 28px 48px;
+        gap: 34px;
+      }
+
+      .footer-shell {
+        padding: 38px 28px 26px;
       }
 
       .dept-row {
-        grid-template-columns: 46px 1fr;
+        grid-template-columns: 52px 1fr;
+        padding: 24px 22px;
+      }
+
+      .dept-row .d-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
       }
 
       .dept-row .d-go {
@@ -1192,23 +1388,33 @@
       }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 640px) {
 
       .row-2,
       .row-3 {
         grid-template-columns: 1fr;
       }
 
-      .header-inner {
-        height: 64px;
-      }
-
       .section {
-        padding: 56px 0;
+        padding: 52px 0;
       }
 
       .brand-tag {
         display: none;
+      }
+
+      .header-inner {
+        padding: 8px 8px 8px 12px;
+      }
+
+      .admin-toggle button {
+        padding: 8px 11px;
+        font-size: .76rem;
+      }
+
+      .hero-shell,
+      .footer-shell {
+        border-radius: 24px;
       }
 
       .modal-body iframe {
@@ -1229,25 +1435,31 @@
 
   <!-- ================= HEADER ================= -->
   <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="#top" onclick="showPanel('site')">
-        <span class="brand-mark" id="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M12 21s-7.5-4.7-9.3-9.2A5.2 5.2 0 0112 5.5a5.2 5.2 0 019.3 6.3C19.5 16.3 12 21 12 21z" />
-            <path d="M6 12h3l1.5-3 2 6 1.5-3H18" />
-          </svg>
-        </span>
-        <span>
-          <span class="brand-name" id="brand-name">ZFH Healthcare</span>
-          <span class="brand-tag" id="brand-tag">Your life is our life</span>
-        </span>
-      </a>
-      <nav class="site-nav" id="site-nav">
-        <a href="#doctors">Doctors</a>
-        <a href="#departments">Departments</a>
-        <a href="#how">How it works</a>
-        <a href="#doctors">Book Appointment</a>
-      </nav>
+    <div class="wrap">
+      <div class="header-inner">
+        <a class="brand" href="#top" onclick="showPanel('site')">
+          <span class="brand-mark" id="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 21s-7.5-4.7-9.3-9.2A5.2 5.2 0 0112 5.5a5.2 5.2 0 019.3 6.3C19.5 16.3 12 21 12 21z" />
+              <path d="M6 12h3l1.5-3 2 6 1.5-3H18" />
+            </svg>
+          </span>
+          <span>
+            <span class="brand-name" id="brand-name">ZFH Healthcare</span>
+            <span class="brand-tag" id="brand-tag">Your life is our life</span>
+          </span>
+        </a>
+        <nav class="site-nav" id="site-nav">
+          <a href="#doctors" onclick="showPanel('site')">Doctors</a>
+          <a href="#departments" onclick="showPanel('site')">Departments</a>
+          <a href="#how" onclick="showPanel('site')">How it works</a>
+        </nav>
+        <div class="admin-toggle">
+          <button id="t-site" class="on" onclick="showPanel('site')">Website</button>
+          <button id="t-manage" onclick="showPanel('manage')">Manage</button>
+          <button id="t-settings" onclick="showPanel('settings')">Settings</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -1255,43 +1467,52 @@
   <div class="panel active" id="panel-site">
 
     <section class="hero" id="top">
-      <div class="hero-photo" id="hero-photo"></div>
-      <div class="hero-veil"></div>
-      <div class="wrap hero-inner">
-        <div>
-          <span class="welcome" id="hero-welcome">Welcome to ZFH Healthcare</span>
-          <h1 id="hero-heading">Good care begins with the right doctor</h1>
-          <p class="lede" id="hero-sub">Meet our specialists, read what each department treats, and book a time that
-            suits you. No phone calls, no waiting room queue.</p>
-          <div class="hero-cta">
-            <a class="btn btn-light" href="#doctors">Meet the doctors</a>
-            <a class="btn btn-outline-light" href="#departments">Browse departments</a>
-          </div>
-        </div>
+      <div class="wrap">
+        <div class="hero-shell">
+          <div class="hero-photo" id="hero-photo"></div>
+          <div class="hero-veil"></div>
+          <div class="hero-inner">
+            <div>
+              <span class="welcome" id="hero-welcome">Welcome to ZFH Healthcare</span>
+              <h1 id="hero-heading">Good care begins with the right doctor</h1>
+              <p class="lede" id="hero-sub">Meet our specialists, read what each department treats, and book a time that
+                suits you. No phone calls, no waiting room queue.</p>
+              <div class="hero-cta">
+                <a class="btn btn-light" href="#doctors">Meet the doctors</a>
+                <a class="btn btn-outline-light" href="#departments">Browse departments</a>
+              </div>
+              <div class="hero-notes">
+                <span>Seen within three days</span>
+                <span>Email confirmation</span>
+                <span>Follow-up call included</span>
+              </div>
+            </div>
 
-        <div class="picker">
-          <h3>Book in two steps</h3>
-          <p>Pick a department, then the doctor you want to see.</p>
-          <label class="field-label" for="pick-dept">Department</label>
-          <select class="field-select" id="pick-dept" onchange="onPickDept()">
-            <option value="">Any department</option>
-          </select>
-          <label class="field-label" for="pick-doc">Doctor</label>
-          <select class="field-select" id="pick-doc">
-            <option value="">Select a doctor</option>
-          </select>
-          <button class="btn btn-primary" onclick="bookFromPicker()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path d="M16 2v4M8 2v4M3 10h18" />
-            </svg>
-            Check available slots
-          </button>
+            <div class="picker">
+              <h3>Book in two steps</h3>
+              <p>Pick a department, then the doctor you want to see.</p>
+              <label class="field-label" for="pick-dept">Department</label>
+              <select class="field-select" id="pick-dept" onchange="onPickDept()">
+                <option value="">Any department</option>
+              </select>
+              <label class="field-label" for="pick-doc">Doctor</label>
+              <select class="field-select" id="pick-doc">
+                <option value="">Select a doctor</option>
+              </select>
+              <button class="btn btn-primary" onclick="bookFromPicker()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+                Check available slots
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
+    <!-- DOCTORS -->
     <section class="section" id="doctors">
       <div class="wrap">
         <div class="section-head">
@@ -1308,8 +1529,8 @@
       </div>
     </section>
 
-    <!-- HOW -->
-    <section class="section alt" id="departments">
+    <!-- DEPARTMENTS -->
+    <section class="section" id="departments">
       <div class="wrap">
         <div class="section-head">
           <h2>Departments and what they treat</h2>
@@ -1320,15 +1541,13 @@
       </div>
     </section>
 
-    <!-- DOCTORS -->
+    <!-- ABOUT -->
     <section class="section">
       <div class="wrap">
         <div class="section-head">
           <h2>A small clinic built around specialists</h2>
           <p>ZFH Healthcare runs as three focused departments rather than one general queue. You see the doctor who
-            treats
-            your
-            condition every day, and your records stay with that team between visits.</p>
+            treats your condition every day, and your records stay with that team between visits.</p>
         </div>
         <div class="about-grid">
           <div class="about-item">
@@ -1349,8 +1568,8 @@
       </div>
     </section>
 
-    <!-- DEPARTMENTS -->
-    <section class="section alt" id="how">
+    <!-- HOW -->
+    <section class="section" id="how">
       <div class="wrap">
         <div class="section-head">
           <h2>How booking works</h2>
@@ -1375,26 +1594,28 @@
 
     <footer class="site-footer">
       <div class="wrap">
-        <div class="footer-grid">
-          <div>
-            <h4 id="foot-name">ZFH Healthcare</h4>
-            <p style="max-width:38ch">Multi-speciality outpatient clinic. Consultations, diagnostics and follow-up care
-              under one roof.</p>
+        <div class="footer-shell">
+          <div class="footer-grid">
+            <div>
+              <h4 id="foot-name">ZFH Healthcare</h4>
+              <p style="max-width:38ch">Multi-speciality outpatient clinic. Consultations, diagnostics and follow-up
+                care under one roof.</p>
+            </div>
+            <div>
+              <h4>Departments</h4>
+              <ul id="foot-depts"></ul>
+            </div>
+            <div>
+              <h4>Visit us</h4>
+              <ul>
+                <li>Mon–Sat, 8:00–20:00</li>
+                <li>Sunday, emergencies only</li>
+                <li><a href="#doctors">Book an appointment</a></li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h4>Departments</h4>
-            <ul id="foot-depts"></ul>
+          <div class="footer-base">This is a demo site with sample doctors and stock photos, for layout testing only.
           </div>
-          <div>
-            <h4>Visit us</h4>
-            <ul>
-              <li>Mon–Sat, 8:00–20:00</li>
-              <li>Sunday, emergencies only</li>
-              <li><a href="#doctors">Book an appointment</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-base">This is a demo site with sample doctors and stock photos, for layout testing only.
         </div>
       </div>
     </footer>
@@ -1412,7 +1633,7 @@
           </div>
           <div class="card-body">
             <div class="chips" id="dept-chips"></div>
-            <div class="row-3" style="margin-bottom:14px">
+            <div class="row-3" style="margin-bottom:16px">
               <div>
                 <label class="field-label" for="nd-name">Department name</label>
                 <input class="field-input" id="nd-name">
@@ -1768,8 +1989,8 @@
     const ICON = {
       cardiology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S3.5 15.2 3.5 9.6A4.6 4.6 0 0112 7.3a4.6 4.6 0 018.5 2.3c0 5.6-8.5 10.9-8.5 10.9z"/><path d="M4 12.6h3.6L9 10.2l1.8 4.4L12.4 12h3"/></svg>',
       gynaecology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
-      psychologist: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0-.34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
-      psychology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0-.34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
+      psychologist: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
+      psychology: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>',
       _default: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg>'
     };
     const deptIcon = id => ICON[id] || ICON._default;
@@ -1803,14 +2024,14 @@
       el.innerHTML = depts.map(d => {
         const count = docs.filter(x => x.department === d.id).length;
         const tags = (d.tags || []).map(t => `<span class="tagpill">${esc(t)}</span>`).join('');
-        return `<article class="dept-row" style="border-left-color:${d.color}">
-          <div class="d-icon" style="background:${tint(d.color, .12)};color:${d.color}">${deptIcon(d.id)}</div>
-          <div>
+        return `<article class="dept-row" style="border-left-color:${d.color};color:${d.color}">
+          <div class="d-icon" style="background:${tint(d.color, .16)};color:${d.color}">${deptIcon(d.id)}</div>
+          <div style="color:var(--body)">
             <h3>${esc(d.name)}</h3>
             <p class="d-desc">${esc(d.desc || 'No description added yet.')}</p>
             <div class="d-meta">${tags}
-              <span class="tagpill" style="background:${tint(d.color, .1)};border-color:transparent;color:${shade(d.color, -25)}">${count} doctor${count === 1 ? '' : 's'}</span>
-              ${d.duration ? `<span class="tagpill" style="background:${tint(d.color, .1)};border-color:transparent;color:${shade(d.color, -25)}">${esc(d.duration)}</span>` : ''}
+              <span class="tagpill" style="background:${tint(d.color, .14)};border-color:transparent;color:${shade(d.color, -25)}">${count} doctor${count === 1 ? '' : 's'}</span>
+              ${d.duration ? `<span class="tagpill" style="background:${tint(d.color, .14)};border-color:transparent;color:${shade(d.color, -25)}">${esc(d.duration)}</span>` : ''}
             </div>
           </div>
           <div class="d-go">
